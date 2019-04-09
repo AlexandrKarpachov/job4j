@@ -11,7 +11,7 @@ public class Calculate {
 	*Constructor, output a string into the console.
 	*@param args - arg.
 	*/
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 		Calculate calc = new Calculate();
 		System.out.println(calc.echo("ahhh"));
 	}
@@ -21,7 +21,7 @@ public class Calculate {
      * @param name Your name.
      * @return Echo plus your name.
      */
-    public String echo(String name) {
+    private String echo(String name) {
         return "Echo, echo, echo : " + name;
     }
 }
