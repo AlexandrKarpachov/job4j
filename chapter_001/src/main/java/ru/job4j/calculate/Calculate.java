@@ -1,13 +1,31 @@
 package ru.job4j.calculate;
+/**
+*Class Calculate solve of the exercize of the part 001 of lesson1
+*@autor Aleksandr Karpachov
+*@sinse 09.04.2019
+*/
+
 
 public class Calculate {
-	public static void main(String[] args) {
+	/**
+	*Constructor, output a string into the console.
+	*@param arg - arg.
+	*/
+	public static void main(final String[] args) {
 		Calculate calc = new Calculate();
 		System.out.println(calc.echo("ahhh"));
 	}
 	
-	public String echo(String value) {
+	/** Method of testing.
+	*@param value is a string for output into the console.
+	*@return String value.
+	*/
+	public String echo(final String value) {
+		if(value != null) {
+			value  = String.format("%s value =", value);
+		} else {
+			value = "value = null";
+		}
 		return String.format("%s %s %s", value, value, value);
 	}
-	
 }
