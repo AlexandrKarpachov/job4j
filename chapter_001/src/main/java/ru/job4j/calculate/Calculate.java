@@ -16,16 +16,12 @@ public class Calculate {
 		System.out.println(calc.echo("ahhh"));
 	}
 	
-	/** Method of testing.
-	*@param value is a string for output into the console.
-	*@return String value.
-	*/
-	public String echo(final String value) {
-		if(value != null) {
-			value  = String.format("%s value =", value);
-		} else {
-			value = "value = null";
-		}
-		return String.format("%s %s %s", value, value, value);
-	}
+	/**
+     * Method echo.
+     * @param name Your name.
+     * @return Echo plus your name.
+     */
+    public String echo(String name) {
+        return "Echo, echo, echo : " + name;
+    }
 }
