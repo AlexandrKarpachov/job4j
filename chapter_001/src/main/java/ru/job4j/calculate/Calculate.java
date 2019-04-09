@@ -1,15 +1,15 @@
 package ru.job4j.calculate;
 /**
 *Class Calculate solve of the exercize of the part 001 of lesson1
-*@autor Aleksandr Karpachov
-*@sinse 09.04.2019
+*@author Aleksandr Karpachov
+*@since 09.04.2019
 */
 
 
 public class Calculate {
 	/**
 	*Constructor, output a string into the console.
-	*@param arg - arg.
+	*@param args - arg.
 	*/
 	public static void main(final String[] args) {
 		Calculate calc = new Calculate();
