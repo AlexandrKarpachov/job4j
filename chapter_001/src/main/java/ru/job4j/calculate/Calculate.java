@@ -21,7 +21,7 @@ public class Calculate {
      * @param name Your name.
      * @return Echo plus your name.
      */
-    private String echo(String name) {
+    public String echo(String name) {
         return "Echo, echo, echo : " + name;
     }
 }
