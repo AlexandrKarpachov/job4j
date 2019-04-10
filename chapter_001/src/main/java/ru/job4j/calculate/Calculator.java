@@ -14,7 +14,7 @@ public class Calculator {
      * @return result
      */
 
-    public double add(double first, double second){
+    public double add(double first, double second) {
         return first + second;
     }
 
@@ -24,7 +24,7 @@ public class Calculator {
      * @param second value
      * @return result
      */
-    public double subtract(double first, double second){
+    public double subtract(double first, double second) {
         return first - second;
     }
 
@@ -34,7 +34,7 @@ public class Calculator {
      * @param second value
      * @return result
      */
-    public double multiply (double first, double second){
+    public double multiply(double first, double second) {
         return first * second;
     }
 
@@ -46,7 +46,7 @@ public class Calculator {
      * else if first is positive and second == 0, return Infinity
      * else if first is negative and second == 0, return -Infinity
      */
-    public double divide (double first, double second){
+    public double divide(double first, double second) {
         return first / second;
     }
 }
