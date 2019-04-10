@@ -8,7 +8,7 @@ public class Fit {
     private static final double COEFFICIENT = 1.15;
     //value that we need to subtract from height
     private static final double FOR_MANS = 100;
-    private static final double FOR_WOMEN = 100;
+    private static final double FOR_WOMEN = 110;
 
     /**
      * Ideal weight for man.
