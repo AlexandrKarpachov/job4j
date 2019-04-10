@@ -29,7 +29,7 @@ public class ConverterTest {
     @Test
     public void when2DollarsToRublesThen160() {
         Converter converter = new Converter();
-        int result = converter.euroToRuble(2);
-        assertThat(result, is(160));
+        int result = converter.dollarToRuble(2);
+        assertThat(result, is(120));
     }
 }
