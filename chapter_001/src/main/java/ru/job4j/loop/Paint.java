@@ -23,7 +23,6 @@ public class Paint {
         }
         return result.toString();
     }
-
     /**
      * This method points left part of the pyramid
      * @param height of the pyramid
