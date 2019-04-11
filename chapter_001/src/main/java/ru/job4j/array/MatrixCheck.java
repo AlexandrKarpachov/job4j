@@ -11,7 +11,8 @@ public class MatrixCheck {
         boolean back = data[data.length - 1][0];
         for (int i = 0; i < data.length; i++) {
             if (data[i][i] != main || data[data.length - i - 1][i] != back) {
-                return false;
+                result = false;
+                break;
             }
         }
         return result;
