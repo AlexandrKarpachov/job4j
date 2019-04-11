@@ -1,5 +1,5 @@
 package ru.job4j.loop;
-
+import java.util.function.BiPredicate;
 
 
 public class Paint {
@@ -10,18 +10,11 @@ public class Paint {
      * @return String with triangle
      */
     public String rightTrl(int height) {
-        StringBuilder result = new StringBuilder();
-        for (int row = 0; row < height; row++) {
-            for (int column = 0; column < height; column++) {
-                if (row >= column) {
-                    result.append("^");
-                } else {
-                    result.append(" ");
-                }
-            }
-            result.append(System.lineSeparator());
-        }
-        return result.toString();
+        return this.loopBy(
+                height,
+                height,
+                (row, column) -> row >= column
+        );
     }
     /**
      * This method points left part of the pyramid
@@ -29,18 +22,11 @@ public class Paint {
      * @return String with triangle
      */
     public String leftTrl(int height) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < height; j++) {
-                if (j >= height - i - 1) {
-                    result.append("^");
-                } else {
-                    result.append(" ");
-                }
-            }
-            result.append(System.lineSeparator());
-        }
-        return result.toString();
+        return this.loopBy(
+                height,
+                height,
+                (row, column) -> row >= height - column - 1
+        );
     }
 
     /**
@@ -49,11 +35,18 @@ public class Paint {
      * @return String with pyramid
      */
     public String pyramid(int height) {
+        return this.loopBy(
+                height,
+                2 * height - 1,
+                (row, column) -> row >= height - column - 1 && row + height - 1 >= column
+        );
+    }
+
+    private String loopBy(int height, int wight, BiPredicate<Integer, Integer> predict) {
         StringBuilder screen = new StringBuilder();
-        int width = 2 * height - 1;
-        for (int row = 0; row < height; row++) {
-            for (int column = 0; column < width; column++) {
-                if (row >= height - column - 1 && row + height - 1 >= column) {
+        for (int row = 0; row != height; row++) {
+            for (int column = 0; column != wight; column++) {
+                if (predict.test(row, column)) {
                     screen.append("^");
                 } else {
                     screen.append(" ");
