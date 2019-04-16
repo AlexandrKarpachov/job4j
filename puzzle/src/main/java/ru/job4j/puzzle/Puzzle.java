@@ -18,6 +18,7 @@ import ru.job4j.puzzle.firuges.Cell;
 import ru.job4j.puzzle.firuges.Checker;
 import ru.job4j.puzzle.firuges.Figure;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Puzzle extends Application {
@@ -26,6 +27,7 @@ public class Puzzle extends Application {
     private final Logic logic = new Logic(size);
 
     private Rectangle buildRectangle(int x, int y, int size) {
+
         Rectangle rect = new Rectangle();
         rect.setX(x * size);
         rect.setY(y * size);
@@ -36,6 +38,9 @@ public class Puzzle extends Application {
         return rect;
     }
 
+    public static void change(Integer value) {
+        ++value;
+    }
     private Rectangle buildFigure(int x, int y, int size, String image) {
         Rectangle rect = new Rectangle();
         rect.setX(x);
