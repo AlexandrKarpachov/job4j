@@ -7,10 +7,10 @@ public class Square {
      * @return array with square degrees
      */
     public int[] calculate(int bound) {
-    int[] arr = new int[bound];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (i + 1) * (i + 1);
+    int[] result = new int[bound];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = (i + 1) * (i + 1);
         }
-        return arr;
+        return result;
     }
 }
