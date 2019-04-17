@@ -7,3 +7,5 @@
 http://job4j.ru/ 
 
 I want to become a java programmer before winter 2019
+
+Merging changes
