@@ -111,8 +111,7 @@ public class StartUI {
     private void showAll() {
         Item[] appl = tracker.findAll();
         for (Item item: appl) {
-            System.out.println(item.getName() + " " + item.getId());
-            System.out.println(item.getTime());
+            System.out.format("%s %s\n%d\n", item.getName(), item.getId(), item.getTime());
         }
         input.ask("Press Enter to Continue");
     }
@@ -126,8 +125,11 @@ public class StartUI {
         if (edit == null) {
             System.out.println("Sorry, Application with such ID does not exist");
         } else {
+            String name = input.ask("Enter new name");
             String desc = input.ask("Enter new description");
-            tracker.replace(id, new Item(edit.getName(), desc, edit.getTime()));
+            Item item =  new Item(name, desc, edit.getTime());
+            item.setId(id);
+            tracker.replace(id, item);
         }
         input.ask("Press Enter to Continue");
     }
@@ -156,8 +158,7 @@ public class StartUI {
         if (found == null) {
             System.out.println("Sorry, Application with such ID does not exist");
         } else {
-            System.out.println(found.getName() + " " + found.getDecs());
-            System.out.println(found.getTime());
+            System.out.format("%s %s\n%d\n", found.getName(), found.getDecs(), found.getTime());
         }
         input.ask("Press Enter to Continue");
     }
@@ -173,8 +174,7 @@ public class StartUI {
             System.out.println("Sorry, Application with such ID does not exist");
         } else {
             for (Item item: found) {
-                System.out.println(item.getName() + " " + item.getDecs());
-                System.out.println(item.getTime());
+                System.out.format("%s %s\n%d\n", item.getName(), item.getDecs(), item.getTime());
             }
         }
         input.ask("Press Enter to Continue");
