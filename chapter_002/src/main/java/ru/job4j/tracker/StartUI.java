@@ -111,7 +111,7 @@ public class StartUI {
     private void showAll() {
         Item[] appl = tracker.findAll();
         for (Item item: appl) {
-            System.out.format("%s %s\n%d\n", item.getName(), item.getId(), item.getTime());
+            System.out.format("%s %s\r\n%d\r\n", item.getName(), item.getId(), item.getTime());
         }
         input.ask("Press Enter to Continue");
     }
@@ -158,7 +158,7 @@ public class StartUI {
         if (found == null) {
             System.out.println("Sorry, Application with such ID does not exist");
         } else {
-            System.out.format("%s %s\n%d\n", found.getName(), found.getDecs(), found.getTime());
+            System.out.format("%s %s\r\n%d\r\n", found.getName(), found.getDecs(), found.getTime());
         }
         input.ask("Press Enter to Continue");
     }
@@ -174,7 +174,7 @@ public class StartUI {
             System.out.println("Sorry, Application with such ID does not exist");
         } else {
             for (Item item: found) {
-                System.out.format("%s %s\n%d\n", item.getName(), item.getDecs(), item.getTime());
+                System.out.format("%s %s\r\n%d\r\n", item.getName(), item.getDecs(), item.getTime());
             }
         }
         input.ask("Press Enter to Continue");
