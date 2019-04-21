@@ -44,7 +44,7 @@ public class StartUITest {
 
     @Test
     public void whenAddTwoItemsAndShowAll() {
-        String[] sequence = {"1", "enter", "y"};
+        String[] sequence = {"1", "y"};
         this.tracker.add(new Item("name1", "desc1"));
         this.tracker.add(new Item("name2", "desc2"));
         StubInput input = new StubInput(sequence);
@@ -68,7 +68,7 @@ public class StartUITest {
 
     @Test
     public void findByWrongID() {
-        String[] sequence = {"4", "wrong id", "enter", "y"};
+        String[] sequence = {"4", "wrong id", "y"};
         StubInput input = new StubInput(sequence);
         new StartUI(input, tracker).init();
         assertThat(out.toString(), is(
@@ -83,7 +83,7 @@ public class StartUITest {
     public void findByID() {
         Item item = new Item("name1", "desc1");
         this.tracker.add(item);
-        String[] sequence = {"4", item.getId(), "enter", "y"};
+        String[] sequence = {"4", item.getId(), "y"};
         StubInput input = new StubInput(sequence);
         new StartUI(input, tracker).init();
         assertThat(out.toString(), is(
@@ -98,7 +98,7 @@ public class StartUITest {
 
     @Test
     public void findByNameWhenThreeItems() {
-        String[] sequence = {"5", "name1", "enter", "y"};
+        String[] sequence = {"5", "name1", "y"};
         Item first = new Item("name1", "desc1");
         Item second = new Item("name1", "desc2");
         this.tracker.add(new Item("name2", "desc2"));
@@ -122,7 +122,7 @@ public class StartUITest {
     @Test
     public void whenUpdateThenTrackerHasUpdatedValue() {
         Item item = this.tracker.add(new Item("test name", "desc"));
-        Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "change ticket", "enter", "y"});
+        Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "change ticket", "y"});
         new StartUI(input, this.tracker).init();
         assertThat(this.tracker.findById(item.getId()).getName(), is("test replace"));
     }
@@ -132,7 +132,7 @@ public class StartUITest {
         Item first = this.tracker.add(new Item("name1", "desc1"));
         Item second = this.tracker.add(new Item("name2", "desc2"));
         Item[] expected = new Item[] {first};
-        Input input = new StubInput(new String[]{"3", second.getId(), "enter", "y"});
+        Input input = new StubInput(new String[]{"3", second.getId(), "y"});
         new StartUI(input, this.tracker).init();
         assertThat(expected, is(this.tracker.findAll()));
     }
@@ -140,7 +140,7 @@ public class StartUITest {
     @Test
     public void whenAddOneTicketAndDelete() {
         Item first = this.tracker.add(new Item("name1", "desc1"));
-        Input input = new StubInput(new String[]{"3", first.getId(), "enter", "y"});
+        Input input = new StubInput(new String[]{"3", first.getId(), "y"});
         new StartUI(input, this.tracker).init();
         assertThat(new Item[]{}, is(this.tracker.findAll()));
     }

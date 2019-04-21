@@ -16,6 +16,9 @@ public class MenuTracker {
         this.tracker = tracker;
     }
 
+    public int getActionsLength() {
+        return this.actions.size();
+    }
 
     public void fillActions() {
         this.actions.add(new AddItem());
@@ -84,7 +87,6 @@ public class MenuTracker {
             for (Item item : application) {
                 System.out.format("%s %s\r\n%d\r\n", item.getName(), item.getId(), item.getTime());
             }
-            input.ask("Press Enter to Continue");
         }
 
         @Override
@@ -121,7 +123,6 @@ public class MenuTracker {
                 item.setId(id);
                 tracker.replace(id, item);
             }
-            input.ask("Press Enter to Continue");
         }
 
         @Override
@@ -153,7 +154,6 @@ public class MenuTracker {
             } else {
                 System.out.format("Application with ID %s does not exist", id);
             }
-            input.ask("Press Enter to Continue");
         }
 
         @Override
@@ -186,7 +186,6 @@ public class MenuTracker {
             } else {
                 System.out.format("%s %s\r\n%d\r\n", found.getName(), found.getDecs(), found.getTime());
             }
-            input.ask("Press Enter to Continue");
         }
 
         @Override
@@ -220,7 +219,6 @@ public class MenuTracker {
                     System.out.format("%s %s\r\n%d\r\n", item.getName(), item.getDecs(), item.getTime());
                 }
             }
-            input.ask("Press Enter to Continue");
         }
 
         @Override
