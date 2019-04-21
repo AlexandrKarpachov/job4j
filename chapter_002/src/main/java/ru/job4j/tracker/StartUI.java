@@ -19,7 +19,12 @@ public class StartUI {
     private final Tracker tracker;
 
     public static void main(String[] args) {
-        new StartUI(new ValidateInput(), new Tracker()).init();
+        new StartUI(
+                new ValidateInput(
+                    new ConsoleInput()
+                ),
+                new Tracker()
+        ).init();
     }
 
     /**

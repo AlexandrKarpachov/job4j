@@ -6,11 +6,17 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 public class StartUITest {
 
+    /**
+     * this constant stores the number of menu items
+     */
+    private final int menuCount = 6;
     private Tracker tracker;
     private final PrintStream stdOut = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -23,11 +29,19 @@ public class StartUITest {
             .append("5. Find items by name\r\n")
             .toString();
 
+    List<Integer> range;
+
+
     @Before
     public void before() {
+        range = new ArrayList<>();
+        for (int i = 0; i < menuCount; i++) {
+            range.add(i);
+        }
         this.tracker = new Tracker();
         System.setOut(new PrintStream(this.out));
     }
+
     @After
     public void backOutput() {
         System.setOut(stdOut);
@@ -143,6 +157,52 @@ public class StartUITest {
         Input input = new StubInput(new String[]{"3", first.getId(), "y"});
         new StartUI(input, this.tracker).init();
         assertThat(new Item[]{}, is(this.tracker.findAll()));
+    }
+
+    @Test
+    public void whenInvalidDataInput() {
+        ValidateInput input = new ValidateInput(
+                new StubInput(new String[] {"invalid", "1"})
+        );
+        input.ask("Enter", this.range);
+        assertThat(
+                this.out.toString(),
+                is(
+                        String.format("Please enter valid data%n")
+                )
+        );
+    }
+
+    @Test
+    public void whenInvalidRangeInput() {
+        ValidateInput input = new ValidateInput(
+                new StubInput(new String[] {"7", "1"})
+        );
+        input.ask("Enter", this.range);
+        assertThat(
+                this.out.toString(),
+                is(
+                        String.format("Please enter valid point%n")
+                )
+        );
+    }
+
+    @Test
+    public void whenInvalidRangeTwiceInput() {
+        ValidateInput input = new ValidateInput(
+                new StubInput(new String[] {"7", "invalid data", "1"})
+        );
+        input.ask("Enter", this.range);
+        assertThat(
+                this.out.toString(),
+                is(
+                        String.format(
+                                "%s%n%s%n",
+                                "Please enter valid point",
+                                "Please enter valid data"
+                        )
+                )
+        );
     }
 
 
