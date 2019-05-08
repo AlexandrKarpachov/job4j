@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -53,7 +54,7 @@ public class StartUITest {
         String[] sequence = {"0", "name1", "test description", "y"};
         StubInput input = new StubInput(sequence);
         new StartUI(input, this.tracker).init();
-        assertThat(this.tracker.findAll()[0].getName(), is("name1"));
+        assertThat(this.tracker.findAll().get(0).getName(), is("name1"));
     }
 
     @Test
@@ -66,15 +67,15 @@ public class StartUITest {
         assertThat(out.toString(), is(
                 new StringBuilder()
                 .append(this.menu)
-                .append(this.tracker.findAll()[0].getName() + " ")
-                .append(this.tracker.findAll()[0].getId())
+                .append(this.tracker.findAll().get(0).getName() + " ")
+                .append(this.tracker.findAll().get(0).getId())
                 .append(System.lineSeparator())
-                .append(this.tracker.findAll()[0].getTime())
+                .append(this.tracker.findAll().get(0).getTime())
                 .append(System.lineSeparator())
-                .append(this.tracker.findAll()[1].getName() + " ")
-                .append(this.tracker.findAll()[1].getId())
+                .append(this.tracker.findAll().get(1).getName() + " ")
+                .append(this.tracker.findAll().get(1).getId())
                 .append(System.lineSeparator())
-                .append(this.tracker.findAll()[1].getTime())
+                .append(this.tracker.findAll().get(1).getTime())
                 .append(System.lineSeparator())
                 .toString()
         ));
@@ -145,7 +146,7 @@ public class StartUITest {
     public void whenAddTwoTicketAndDelete() {
         Item first = this.tracker.add(new Item("name1", "desc1"));
         Item second = this.tracker.add(new Item("name2", "desc2"));
-        Item[] expected = new Item[] {first};
+        List<Item> expected = Arrays.asList(first);
         Input input = new StubInput(new String[]{"3", second.getId(), "y"});
         new StartUI(input, this.tracker).init();
         assertThat(expected, is(this.tracker.findAll()));
@@ -156,7 +157,7 @@ public class StartUITest {
         Item first = this.tracker.add(new Item("name1", "desc1"));
         Input input = new StubInput(new String[]{"3", first.getId(), "y"});
         new StartUI(input, this.tracker).init();
-        assertThat(new Item[]{}, is(this.tracker.findAll()));
+        assertThat(new ArrayList<>(), is(this.tracker.findAll()));
     }
 
     @Test

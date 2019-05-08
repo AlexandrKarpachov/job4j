@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 public class TrackerSingleLazy2 {
     private static final Tracker TRACKER = new Tracker();
     private TrackerSingleLazy2() {
@@ -50,7 +52,7 @@ public class TrackerSingleLazy2 {
      * Method returns all applications
      * @return new array with applications
      */
-    public Item[] findAll() {
+    public List<Item> findAll() {
         return TRACKER.findAll();
     }
 
@@ -60,7 +62,7 @@ public class TrackerSingleLazy2 {
      * @param key name
      * @return new array with names {@param key}
      */
-    public Item[] findByName(String key) {
+    public List<Item> findByName(String key) {
         return TRACKER.findByName(key);
     }
 
