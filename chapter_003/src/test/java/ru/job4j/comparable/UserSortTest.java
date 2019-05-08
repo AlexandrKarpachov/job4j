@@ -21,7 +21,7 @@ public class UserSortTest {
         Set<User> result = sort.sort(users);
         int[] ages = new int[result.size()];
         int i = 0;
-        for(User user : result) {
+        for (User user : result) {
             ages[i++] = user.getAge();
         }
         assertThat(ages, is(new int[]{18, 25, 37}));

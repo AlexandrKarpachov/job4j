@@ -29,7 +29,7 @@ public class UserSort {
      * {@param name} length
      * @param list for sorting
      */
-    public List<User> sortNameLength (List<User> list) {
+    public List<User> sortNameLength(List<User> list) {
         Comparator<User> comparator = new Comparator<>() {
             @Override
             public int compare(User o1, User o2) {
@@ -46,7 +46,7 @@ public class UserSort {
      * @param list for sorting
      * @return sorted List<User>
      */
-    public List<User> sortByAllFields (List<User> list) {
+    public List<User> sortByAllFields(List<User> list) {
         Comparator<User> comparator = new Comparator<>() {
             @Override
             public int compare(User o1, User o2) {
