@@ -8,7 +8,7 @@ public class ListCompare implements Comparator<String> {
      * @param left first String
      * @param right second String
      * @return negative number if left less then right, positive number
-     * if left bigger then right and zero if they identical
+     * if left bigger then right and zero if they identical.
      */
     @Override
     public int compare(String left, String right) {
