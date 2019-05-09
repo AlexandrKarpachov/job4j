@@ -21,12 +21,12 @@ public class MenuTracker {
     }
 
     public void fillActions() {
-        this.actions.add(new AddItem(0, "0. Add new Item"));
-        this.actions.add(new ShowAllItems(1, "1. Show all items"));
-        this.actions.add(new EditItem(2, "2. Edit item"));
-        this.actions.add(new DeleteItem(3, "3. Delete item"));
-        this.actions.add(new FindById(4, "4. Find item by Id"));
-        this.actions.add(new FindByName(5, "5. Find items by name"));
+        this.actions.add(new AddItem(0, "0. Add new Item\r\n"));
+        this.actions.add(new ShowAllItems(1, "1. Show all items\r\n"));
+        this.actions.add(new EditItem(2, "2. Edit item\r\n"));
+        this.actions.add(new DeleteItem(3, "3. Delete item\r\n"));
+        this.actions.add(new FindById(4, "4. Find item by Id\r\n"));
+        this.actions.add(new FindByName(5, "5. Find items by name\r\n"));
     }
 
     public void select(int key) {
@@ -36,7 +36,7 @@ public class MenuTracker {
     public void show() {
         for (UserAction action : this.actions) {
             if (action != null) {
-                System.out.println(action.info());
+                System.out.print(action.info());
             }
         }
     }
@@ -72,7 +72,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             List<Item> application = tracker.findAll();
             for (Item item : application) {
-                System.out.format("%s %s\r\n%d\r\n", item.getName(), item.getId(), item.getTime());
+                System.out.format("%s %s\n%d\n", item.getName(), item.getId(), item.getTime());
             }
         }
     }

@@ -89,7 +89,7 @@ public class StartUITest {
         assertThat(out.toString(), is(
                 new StringBuilder()
                         .append(this.menu)
-                        .append("Sorry, Application with such ID does not exist\r\n")
+                        .append("Sorry, Application with such ID does not exist\n")
                         .toString()
         ));
     }
