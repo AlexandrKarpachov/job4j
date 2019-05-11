@@ -1,8 +1,7 @@
 package ru.job4j.bank;
 
-import org.junit.Rule;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,13 +13,15 @@ import static org.junit.Assert.assertThat;
 
 public class BankTest {
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
+    @Before
+    public void start() {
+        Bank instance = Bank.INSTANCE;
+        instance.clear();
+    }
 
     @Test
     public void whenAdd2UsersThenGetAll() {
-        Bank bank = new Bank();
+        Bank bank = Bank.INSTANCE;
         bank.addUser(new User("Ivan", "id_123"));
         bank.addUser(new User("Vasil", "id_124"));
         List<User> expected = Arrays.asList(
@@ -34,7 +35,7 @@ public class BankTest {
 
     @Test
     public void whenAdd2ElementThenDelete() {
-        Bank bank = new Bank();
+        Bank bank = Bank.INSTANCE;
         User vasya = new User("Vasiliy", "id_125");
         bank.addUser(vasya);
         bank.addUser(new User("Ivan", "id_126"));
@@ -47,12 +48,12 @@ public class BankTest {
 
     @Test
     public void addAccountsToUserThenGetThem() {
-        Bank bank = new Bank();
+        Bank bank = Bank.INSTANCE;
         User vasya = new User("Vasiliy", "id_127");
         bank.addUser(vasya);
         bank.addAccountToUser(vasya.getPassport(), new Account(1, "test1"));
         bank.addAccountToUser(vasya.getPassport(), new Account(2, "test2"));
-        List<Account> actual = bank.getAccounts(vasya);
+        List<Account> actual = bank.getUserAccounts(vasya.getPassport());
         List<Account> expected = Arrays.asList(
                 new Account(3, "test1"),
                 new Account(5, "test2")
@@ -62,55 +63,67 @@ public class BankTest {
 
     @Test
     public void whenAdd2UsersWithIdenticalPassport() {
-        Bank bank = new Bank();
+        Bank bank = Bank.INSTANCE;
         bank.addUser(new User("Ivan", "id_128"));
-        bank.addUser(new User("Vasil", "id_128"));
+        bank.addUser(new User("Ivan", "id_128"));
         List<User> actual = bank.getAllUsers();
         List<User> expected = Collections.singletonList(new User("Ivan", "id_128"));
         assertThat(actual, is(expected));
     }
 
     @Test
-    public void whenAddsAccountToNonExistsUserThenException() {
-        Bank bank = new Bank();
-        expectedException.expect(NullPointerException.class);
-        bank.addAccountToUser("Non exists user passport", new Account(1, "test1"));
+    public void whenDeleteAccountFromUser() {
+        Bank bank = Bank.INSTANCE;
+        User vanya = new User("Ivan", "id_128");
+        bank.addUser(vanya);
+        Account first = new Account(3, "test1");
+        Account second = new Account(5, "test2");
+        bank.addAccountToUser(vanya.getPassport(), first);
+        bank.addAccountToUser(vanya.getPassport(), second);
+        bank.deleteAccountFromUser(vanya.getPassport(), second);
+        List<Account> expected = Collections.singletonList(first);
+        assertThat(expected, is(bank.getUserAccounts(vanya.getPassport())));
+
     }
 
     @Test
     public void whenTransferMoney() {
-        Bank bank = new Bank();
+        Bank bank = Bank.INSTANCE;
         User vasya = new User("Ivan", "id_132");
         User petr = new User("Petr", "id_131");
         bank.addUser(vasya);
         bank.addUser(petr);
-        Account accaunt1 = new Account(10, "test reqs");
-        Account accaunt2 = new Account(10, "test reqs");
-        bank.addAccountToUser(vasya.getPassport(), accaunt1);
-        bank.addAccountToUser(petr.getPassport(), accaunt2);
-        boolean result =
-                bank.transferMoney(vasya, accaunt1, petr, accaunt2, 5);
+        Account account1 = new Account(10, "test reqs");
+        Account account2 = new Account(10, "test reqs");
+        bank.addAccountToUser(vasya.getPassport(), account1);
+        bank.addAccountToUser(petr.getPassport(), account2);
+        boolean result = bank.transferMoney(
+                vasya.getPassport(), account1.getRequisites(),
+                petr.getPassport(), account2.getRequisites(), 5
+        );
         assertThat(result, is(true));
-        assertThat(accaunt1.getValue(), is(5d));
-        assertThat(accaunt2.getValue(), is(15d));
+        assertThat(account1.getValue(), is(5d));
+        assertThat(account2.getValue(), is(15d));
     }
 
     @Test
     public void whenTransferNotEnoughMoney() {
-        Bank bank = new Bank();
+        Bank bank = Bank.INSTANCE;
         User vasya = new User("Ivan", "id_132");
         User petr = new User("Petr", "id_131");
         bank.addUser(vasya);
         bank.addUser(petr);
-        Account accaunt1 = new Account(10, "test reqs");
-        Account accaunt2 = new Account(10, "test reqs");
-        bank.addAccountToUser(vasya.getPassport(), accaunt1);
-        bank.addAccountToUser(petr.getPassport(), accaunt2);
-        boolean result =
-                bank.transferMoney(vasya, accaunt1, petr, accaunt2, 12);
+        Account account1 = new Account(10, "test reqs");
+        Account account2 = new Account(10, "test reqs");
+        bank.addAccountToUser(vasya.getPassport(), account1);
+        bank.addAccountToUser(petr.getPassport(), account2);
+        boolean result = bank.transferMoney(
+                vasya.getPassport(), account1.getRequisites(),
+                petr.getPassport(), account2.getRequisites(), 15
+        );
         assertThat(result, is(false));
-        assertThat(accaunt1.getValue(), is(10d));
-        assertThat(accaunt2.getValue(), is(10d));
+        assertThat(account1.getValue(), is(10d));
+        assertThat(account2.getValue(), is(10d));
     }
 
 }

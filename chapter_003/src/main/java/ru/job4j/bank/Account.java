@@ -75,7 +75,6 @@ public class Account {
     public String toString() {
         return String.format("Account{value= %f, requisites='%s'}",
                 this.value, this.requisites);
-
     }
 
     @Override

@@ -9,20 +9,16 @@ import java.util.*;
  * @version 1.0
  * @since 09.05.2019
  */
-public class   Bank {
+public enum  Bank {
+    INSTANCE;
     private Map<User, ArrayList<Account>> users = new HashMap<>();
-    private Map<String, User> passports = new HashMap<>();
 
     /**
      * Method adds not null User in Map {@param users} adds to him a new list of
      * accounts, and adds User passport to another Map {@param passports}
      */
     public void addUser(User user) {
-        if (!passports.containsKey(user.getPassport())) {
-            this.users.put(user, new ArrayList<>());
-            this.passports.put(user.getPassport(), user);
-        }
-
+            this.users.putIfAbsent(user, new ArrayList<>());
     }
 
     /**
@@ -31,7 +27,6 @@ public class   Bank {
      */
     public void deleteUser(User user) {
         this.users.remove(user);
-        this.passports.remove(user.getPassport());
     }
 
     /**
@@ -40,16 +35,40 @@ public class   Bank {
      * @param account that will be added
      */
     public void addAccountToUser(String passport, Account account) {
-        this.users.get(this.passports.get(passport)).add(account);
+        User user = getUserByPassport(passport);
+        if (user != null) {
+            this.users.get(user).add(account);
+        }
     }
 
     /**
      * Method delete Account from users list with accounts
-     * @param user whose account will be deleted
+     * @param passport of User whose account will be deleted
      * @param account for deleting
      */
-    public void deleteAccount(User user, Account account) {
-        this.users.get(user).remove(account);
+    public void deleteAccountFromUser(String passport, Account account) {
+        User user = getUserByPassport(passport);
+        if (user != null) {
+            this.users.get(user).remove(account);
+        }
+
+    }
+
+    /**
+     * Method searching User by passport
+     * @param passport searching key
+     * @return User with input passport or null if such user not
+     * exists in {@param this.users}
+     */
+    public User getUserByPassport(String passport) {
+        User result = null;
+        for (Map.Entry<User, ArrayList<Account>> user : users.entrySet()) {
+            if (user.getKey().getPassport().equals(passport)) {
+                result = user.getKey();
+                break;
+            }
+        }
+        return result;
     }
 
     /**
@@ -64,42 +83,57 @@ public class   Bank {
     }
 
     /**
-     * @return list with all user accounts
+     * @return list with all user accounts, if User with such passport
+     * does't exists return empty list.
      */
-    public List<Account> getAccounts(User user) {
-        return this.users.get(user);
+    public List<Account> getUserAccounts(String passport) {
+        User user = getUserByPassport(passport);
+        List<Account> accounts = new ArrayList<>();
+        if (user != null) {
+            accounts.addAll(this.users.get(user));
+        }
+        return accounts;
     }
 
     /**
      * transfer money from one account to another account if
      * the following conditions are met:
-     * account for withdraw {@param account1} belong to {@param user1},
-     * account for refill {@param user2} belong to {@param account2} and
-     * first account store enough money for withdraw
+     * - account for withdraw {@param account1} belong to {@param user1}
+     * - account for refill {@param user2} belong to {@param account2}
+     * - first account store enough money for withdraw
      * @param amount of money for withdraw
      * @return true if operation was success and false in otherwise
      */
-    public boolean transferMoney(User user1, Account account1,
-                            User user2, Account account2, double amount) {
-        return account1.transfer(account2, amount);
+    public boolean transferMoney (String srcPassport, String srcRequisite,
+                                  String destPassport, String dstRequisite, double amount) {
+        Account scrAccount = this.getAccountByRequisite(srcPassport, srcRequisite);
+        Account destAccount = this.getAccountByRequisite(destPassport, dstRequisite);
+        return scrAccount != null && destAccount != null
+                && scrAccount.transfer(destAccount, amount);
     }
 
     /**
-     * Method checks that user already has account with such requisite
+     * Method search Accounts by User passport and requisites
      */
-    private boolean userHasAccount(User user, Account account) {
-        boolean result = false;
-        for (Account acc : this.getAccounts(user)) {
-            if (acc.equals(account)) {
-                result = true;
+    private Account getAccountByRequisite(String passport, String requisite) {
+        Account result = null;
+        User user = getUserByPassport(passport);
+        for(Account account : this.getUserAccounts(user.getPassport())) {
+            if (account.getRequisites().equals(requisite)) {
+                result = account;
+                break;
             }
         }
         return result;
     }
 
 
+    public void clear() {
+        this.users.clear();
+    }
+
     @Override
     public String toString() {
-        return String.format("Bank{users=%s, passports=%s}", users, passports);
+        return String.format("Bank{users=%s}", users);
     }
 }
