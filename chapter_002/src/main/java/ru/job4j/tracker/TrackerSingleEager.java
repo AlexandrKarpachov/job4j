@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 public class TrackerSingleEager {
     private static final TrackerSingleEager INSTANCE = new TrackerSingleEager();
     private static final Tracker TRACKER = new Tracker();
@@ -43,7 +45,7 @@ public class TrackerSingleEager {
      * Method returns all applications
      * @return new array with applications
      */
-    public Item[] findAll() {
+    public List<Item> findAll() {
         return TRACKER.findAll();
     }
 
@@ -53,7 +55,7 @@ public class TrackerSingleEager {
      * @param key name
      * @return new array with names {@param key}
      */
-    public Item[] findByName(String key) {
+    public List<Item> findByName(String key) {
         return TRACKER.findByName(key);
     }
 

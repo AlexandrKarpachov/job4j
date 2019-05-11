@@ -1,8 +1,6 @@
 package ru.job4j.tracker;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @version $Id$
@@ -12,7 +10,7 @@ public class Tracker {
     /**
      * Application stored array
      */
-    private final Item[] items = new Item[100];
+    private final List<Item> items = new ArrayList<>();
 
     /**
      * Cell pointer for new application
@@ -25,7 +23,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(this.generateId());
-        this.items[this.position++] = item;
+        this.items.add(this.position++, item);
         return item;
     }
 
@@ -40,7 +38,7 @@ public class Tracker {
         boolean result = false;
         int index = indexOf(id);
         if (index != -1) {
-            this.items[index] = item;
+            this.items.set(index, item);
             result = true;
         }
         return result;
@@ -55,7 +53,8 @@ public class Tracker {
         boolean result = false;
         int index = indexOf(id);
         if (index != -1) {
-            System.arraycopy(this.items, index + 1, this.items, index, this.position - index);
+            this.items.remove(index);
+            //System.arraycopy(this.items, index + 1, this.items, index, this.position - index);
             result = true;
             this.position--;
         }
@@ -63,15 +62,15 @@ public class Tracker {
     }
 
     /**
-     * This method search first index of Item in items with
-     * put id
+     * This method search first index of Item with put id
+     * in items
      * @param id of searching Item
      * @return int index of first found Item
      */
     private int indexOf(String id) {
         int result = -1;
         for (int i = 0; i < this.position; i++) {
-            if (this.items[i].getId().equals(id)) {
+            if (this.items.get(i).getId().equals(id)) {
                 result = i;
                 break;
             }
@@ -80,28 +79,28 @@ public class Tracker {
     }
 
     /**
-     * Method returns all applications
+     * Method returns a copy of list with all applications
      * @return new array with applications
      */
-    public Item[] findAll() {
-        return Arrays.copyOf(items, position);
+    public List<Item> findAll() {
+        return List.copyOf(items);
     }
 
     /**
-     * Method return array with applications whose field name is equal to
-     * {@param key}
+     * Method return List with applications whose field name is equal
+     * to {@param key}
      * @param key name
      * @return new array with names {@param key}
      */
-    public Item[] findByName(String key) {
-        Item[] result = new Item[position];
+    public List<Item> findByName(String key) {
+        List<Item> result = new ArrayList<>();
         int count = 0;
         for (int i = 0; i < this.position; i++) {
-            if (this.items[i].getName().equals(key)) {
-                result[count++] = this.items[i];
+            if (this.items.get(i).getName().equals(key)) {
+                result.add(this.items.get(i));
             }
         }
-        return Arrays.copyOf(result, count);
+        return result;
     }
     /**
      * Method searching application by id
@@ -113,7 +112,7 @@ public class Tracker {
         Item result = null;
         int index = indexOf(id);
         if (index != -1) {
-            result = items[index];
+            result = items.get(index);
         }
         return result;
     }

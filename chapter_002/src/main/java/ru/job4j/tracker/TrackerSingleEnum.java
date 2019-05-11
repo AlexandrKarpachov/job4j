@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 public enum TrackerSingleEnum {
     INSTANCE;
     Tracker track = new Tracker();
@@ -36,7 +38,7 @@ public enum TrackerSingleEnum {
          * Method returns all applications
          * @return new array with applications
          */
-        public Item[] findAll() {
+        public List<Item> findAll() {
             return this.track.findAll();
         }
 
@@ -46,7 +48,7 @@ public enum TrackerSingleEnum {
          * @param key name
          * @return new array with names {@param key}
          */
-        public Item[] findByName(String key) {
+        public List<Item> findByName(String key) {
             return this.track.findByName(key);
         }
 

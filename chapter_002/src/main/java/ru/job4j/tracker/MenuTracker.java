@@ -70,7 +70,7 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            Item[] application = tracker.findAll();
+            List<Item> application = tracker.findAll();
             for (Item item : application) {
                 System.out.format("%s %s\r\n%d\r\n", item.getName(), item.getId(), item.getTime());
             }
@@ -154,9 +154,9 @@ public class MenuTracker {
         @Override
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Please, enter the Name");
-            Item[] found = tracker.findByName(name);
-            if (found.length < 1) {
-                System.out.println("Sorry, Application with such ID does not exist");
+            List<Item> found = tracker.findByName(name);
+            if (found.size() < 1) {
+                System.out.println("Sorry, Application with such Name does not exist");
             } else {
                 for (Item item: found) {
                     System.out.format("%s %s\r\n%d\r\n", item.getName(), item.getDecs(), item.getTime());
