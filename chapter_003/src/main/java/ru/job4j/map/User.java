@@ -1,4 +1,4 @@
-package ru.job4j.HashMap;
+package ru.job4j.map;
 
 public class User {
     private int id;

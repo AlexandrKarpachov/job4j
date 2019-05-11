@@ -11,9 +11,9 @@ public class ConvertList2Array {
         int[][] array = new int[rows][cells];
         int i = 0;
         int j = 0;
-        for(Integer num : list){
+        for (Integer num : list) {
             array[j][i++] = num;
-            if(i == cells) {
+            if (i == cells) {
                 j++;
                 i = 0;
             }
@@ -21,10 +21,10 @@ public class ConvertList2Array {
         return array;
     }
 
-    public List<Integer> convert (List<int[]> list) {
+    public List<Integer> convert(List<int[]> list) {
         List<Integer> result = new ArrayList<>();
-        for(int[] arr : list) {
-            for(int num : arr) {
+        for (int[] arr : list) {
+            for (int num : arr) {
                 result.add(num);
             }
         }

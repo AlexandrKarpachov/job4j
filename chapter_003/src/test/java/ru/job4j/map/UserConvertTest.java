@@ -1,4 +1,4 @@
-package ru.job4j.HashMap;
+package ru.job4j.map;
 
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;

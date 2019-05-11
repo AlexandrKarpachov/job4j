@@ -51,7 +51,6 @@ public enum  Bank {
         if (user != null) {
             this.users.get(user).remove(account);
         }
-
     }
 
     /**
@@ -104,7 +103,7 @@ public enum  Bank {
      * @param amount of money for withdraw
      * @return true if operation was success and false in otherwise
      */
-    public boolean transferMoney (String srcPassport, String srcRequisite,
+    public boolean transferMoney(String srcPassport, String srcRequisite,
                                   String destPassport, String dstRequisite, double amount) {
         Account scrAccount = this.getAccountByRequisite(srcPassport, srcRequisite);
         Account destAccount = this.getAccountByRequisite(destPassport, dstRequisite);
@@ -118,7 +117,7 @@ public enum  Bank {
     private Account getAccountByRequisite(String passport, String requisite) {
         Account result = null;
         User user = getUserByPassport(passport);
-        for(Account account : this.getUserAccounts(user.getPassport())) {
+        for (Account account : this.getUserAccounts(user.getPassport())) {
             if (account.getRequisites().equals(requisite)) {
                 result = account;
                 break;

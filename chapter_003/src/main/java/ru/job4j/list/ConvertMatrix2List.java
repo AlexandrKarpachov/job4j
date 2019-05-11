@@ -10,7 +10,7 @@ public class ConvertMatrix2List {
      */
     public List<Integer> toList(int[][] array) {
         List<Integer> list = new ArrayList<>();
-        for(int[] subArr : array) {
+        for (int[] subArr : array) {
             for (int num : subArr) {
                 list.add(num);
             }

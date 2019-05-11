@@ -69,14 +69,14 @@ public class StartUITest {
                 .append(this.menu)
                 .append(this.tracker.findAll().get(0).getName() + " ")
                 .append(this.tracker.findAll().get(0).getId())
-                .append(System.lineSeparator())
+                .append('\n')
                 .append(this.tracker.findAll().get(0).getTime())
-                .append(System.lineSeparator())
+                .append('\n')
                 .append(this.tracker.findAll().get(1).getName() + " ")
                 .append(this.tracker.findAll().get(1).getId())
-                .append(System.lineSeparator())
+                .append('\n')
                 .append(this.tracker.findAll().get(1).getTime())
-                .append(System.lineSeparator())
+                .append('\n')
                 .toString()
         ));
     }
@@ -89,7 +89,8 @@ public class StartUITest {
         assertThat(out.toString(), is(
                 new StringBuilder()
                         .append(this.menu)
-                        .append("Sorry, Application with such ID does not exist\n")
+                        .append("Sorry, Application with such ID does not exist")
+                        .append(System.lineSeparator())
                         .toString()
         ));
     }
