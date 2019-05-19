@@ -25,5 +25,6 @@ public class ListCompare implements Comparator<String> {
             result = left.length() - right.length();
         }
         return result;
+
     }
 }
