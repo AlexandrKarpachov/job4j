@@ -51,7 +51,7 @@ public class SchoolTest {
         List<Student> actual = school.collect(students, student -> {
             boolean result = false;
             int score = student.getScore();
-            if (score >= 50 && score < 70){
+            if (score >= 50 && score < 70) {
                 result = true;
             }
             return result;
@@ -75,7 +75,7 @@ public class SchoolTest {
         School school = new School();
         List<Student> actual = school.collect(students, student -> {
             boolean result = false;
-            if (student.getScore() >= 70){
+            if (student.getScore() >= 70) {
                 result = true;
             }
             return result;
