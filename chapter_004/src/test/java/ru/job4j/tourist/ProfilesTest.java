@@ -1,0 +1,27 @@
+package ru.job4j.tourist;
+
+import org.junit.Test;
+import java.util.Arrays;
+import java.util.List;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
+
+public class ProfilesTest {
+    @Test
+    public void whenPutTwoProfilesThenGetTwoAddress() {
+        List<Profile> clients = Arrays.asList(
+                new Profile(new Address(
+                        "city", "street", 2, 1)),
+                new Profile(new Address(
+                        "city2", "street1", 2))
+        );
+        List<Address> expect = Arrays.asList(
+                new Address("city", "street", 2, 1),
+                new Address("city2", "street1", 2)
+        );
+        Profiles profiles = new Profiles();
+        List<Address> actual = profiles.collect(clients);
+        assertThat(expect, is(actual));
+    }
+}
