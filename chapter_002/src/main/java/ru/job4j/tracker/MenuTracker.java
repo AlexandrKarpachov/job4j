@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Class that realize menu and its behavior
@@ -10,10 +11,12 @@ public class MenuTracker {
     private Input input;
     private Tracker tracker;
     private List<UserAction> actions = new ArrayList<>();
+    private Consumer<String> output;
 
-    public MenuTracker(Input input, Tracker tracker) {
+    public MenuTracker(Input input, Tracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
+        this.output = output;
     }
 
     public int getActionsLength() {
@@ -36,7 +39,7 @@ public class MenuTracker {
     public void show() {
         for (UserAction action : this.actions) {
             if (action != null) {
-                System.out.print(action.info());
+                output.accept(action.info());
             }
         }
     }
@@ -51,12 +54,12 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            System.out.println("------------ Adding a new application --------------");
+            output.accept("------------ Adding a new application --------------");
             String name = input.ask("Enter applications name:");
             String desc = input.ask("Enter applications description :");
             Item item = new Item(name, desc);
             tracker.add(item);
-            System.out.println("------------ new application with getId : " + item.getId() + "-----------");
+            output.accept("------------ new application with getId : " + item.getId() + "-----------");
         }
     }
 
@@ -72,7 +75,9 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             List<Item> application = tracker.findAll();
             for (Item item : application) {
-                System.out.format("%s %s\n%d\n", item.getName(), item.getId(), item.getTime());
+                output.accept(String.format(
+                        "%s %s\n%d\n", item.getName(), item.getId(), item.getTime()
+                ));
             }
         }
     }
@@ -90,7 +95,7 @@ public class MenuTracker {
             String id = input.ask("Please enter ID");
             Item edit = tracker.findById(id);
             if (edit == null) {
-                System.out.println("Sorry, Application with such ID does not exist");
+                output.accept("Sorry, Application with such ID does not exist");
             } else {
                 String name = input.ask("Enter new name");
                 String desc = input.ask("Enter new description");
@@ -114,9 +119,9 @@ public class MenuTracker {
             String id = input.ask("Please, Enter an ID");
             boolean result = tracker.delete(id);
             if (result) {
-                System.out.format("Application with ID %s successfully deleted", id);
+                output.accept(String.format("Application with ID %s successfully deleted", id));
             } else {
-                System.out.format("Application with ID %s does not exist", id);
+                output.accept(String.format("Application with ID %s does not exist", id));
             }
         }
     }
@@ -135,9 +140,11 @@ public class MenuTracker {
             String id = input.ask("Please, enter ID");
             Item found = tracker.findById(id);
             if (found == null) {
-                System.out.println("Sorry, Application with such ID does not exist");
+                output.accept("Sorry, Application with such ID does not exist");
             } else {
-                System.out.format("%s %s\r\n%d\r\n", found.getName(), found.getDecs(), found.getTime());
+                output.accept(String.format(
+                        "%s %s\r\n%d\r\n", found.getName(), found.getDecs(), found.getTime()
+                ));
             }
         }
     }
@@ -156,10 +163,12 @@ public class MenuTracker {
             String name = input.ask("Please, enter the Name");
             List<Item> found = tracker.findByName(name);
             if (found.size() < 1) {
-                System.out.println("Sorry, Application with such Name does not exist");
+                output.accept("Sorry, Application with such Name does not exist");
             } else {
                 for (Item item: found) {
-                    System.out.format("%s %s\r\n%d\r\n", item.getName(), item.getDecs(), item.getTime());
+                    output.accept(String.format(
+                            "%s %s\r\n%d\r\n", item.getName(), item.getDecs(), item.getTime()
+                    ));
                 }
             }
         }

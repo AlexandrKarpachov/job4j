@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -21,6 +22,14 @@ public class StartUITest {
     private Tracker tracker;
     private final PrintStream stdOut = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private final Consumer<String> output = new Consumer<String>() {
+        private final PrintStream stdout = new PrintStream(out);
+
+        @Override
+        public void accept(String s) {
+            stdout.print(s);
+        }
+    };
     private final String menu = new StringBuilder()
             .append("0. Add new Item\r\n")
             .append("1. Show all items\r\n")
@@ -53,7 +62,7 @@ public class StartUITest {
     public void whenAddOneItem() {
         String[] sequence = {"0", "name1", "test description", "y"};
         StubInput input = new StubInput(sequence);
-        new StartUI(input, this.tracker).init();
+        new StartUI(input, this.tracker, output).init();
         assertThat(this.tracker.findAll().get(0).getName(), is("name1"));
     }
 
@@ -63,7 +72,7 @@ public class StartUITest {
         this.tracker.add(new Item("name1", "desc1"));
         this.tracker.add(new Item("name2", "desc2"));
         StubInput input = new StubInput(sequence);
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
         assertThat(out.toString(), is(
                 new StringBuilder()
                 .append(this.menu)
@@ -85,12 +94,11 @@ public class StartUITest {
     public void findByWrongID() {
         String[] sequence = {"4", "wrong id", "y"};
         StubInput input = new StubInput(sequence);
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
         assertThat(out.toString(), is(
                 new StringBuilder()
                         .append(this.menu)
                         .append("Sorry, Application with such ID does not exist")
-                        .append(System.lineSeparator())
                         .toString()
         ));
     }
@@ -101,7 +109,7 @@ public class StartUITest {
         this.tracker.add(item);
         String[] sequence = {"4", item.getId(), "y"};
         StubInput input = new StubInput(sequence);
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
         assertThat(out.toString(), is(
                 new StringBuilder()
                         .append(this.menu)
@@ -121,7 +129,7 @@ public class StartUITest {
         this.tracker.add(first);
         this.tracker.add(second);
         StubInput input = new StubInput(sequence);
-        new StartUI(input, tracker).init();
+        new StartUI(input, tracker, output).init();
         assertThat(out.toString(), is(
                 new StringBuilder()
                         .append(this.menu)
@@ -139,7 +147,7 @@ public class StartUITest {
     public void whenUpdateThenTrackerHasUpdatedValue() {
         Item item = this.tracker.add(new Item("test name", "desc"));
         Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "change ticket", "y"});
-        new StartUI(input, this.tracker).init();
+        new StartUI(input, this.tracker, output).init();
         assertThat(this.tracker.findById(item.getId()).getName(), is("test replace"));
     }
 
@@ -149,7 +157,7 @@ public class StartUITest {
         Item second = this.tracker.add(new Item("name2", "desc2"));
         List<Item> expected = Arrays.asList(first);
         Input input = new StubInput(new String[]{"3", second.getId(), "y"});
-        new StartUI(input, this.tracker).init();
+        new StartUI(input, this.tracker, output).init();
         assertThat(expected, is(this.tracker.findAll()));
     }
 
@@ -157,7 +165,7 @@ public class StartUITest {
     public void whenAddOneTicketAndDelete() {
         Item first = this.tracker.add(new Item("name1", "desc1"));
         Input input = new StubInput(new String[]{"3", first.getId(), "y"});
-        new StartUI(input, this.tracker).init();
+        new StartUI(input, this.tracker, output).init();
         assertThat(new ArrayList<>(), is(this.tracker.findAll()));
     }
 
