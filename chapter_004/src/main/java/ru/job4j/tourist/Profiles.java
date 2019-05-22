@@ -1,5 +1,6 @@
 package ru.job4j.tourist;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,13 +11,15 @@ import java.util.stream.Collectors;
  */
 public class Profiles {
     /**
-     * Method retrieves addresses from list of clients
+     * Method retrieves sorted list of unique addresses from client list
      * @param profiles list
      * @return address list
      */
     List<Address> collect(List<Profile> profiles) {
         return profiles.stream()
                 .map(Profile::getAddress)
+                .sorted(Comparator.comparing(Address::getCity))
+                .distinct()
                 .collect(Collectors.toList());
     }
 }

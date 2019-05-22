@@ -13,6 +13,22 @@ public class Address {
     private int home;
     private int apartment;
 
+    public String getCity() {
+        return city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public int getHome() {
+        return home;
+    }
+
+    public int getApartment() {
+        return apartment;
+    }
+
     public Address(String city, String street, int home) {
         this.city = city;
         this.street = street;
