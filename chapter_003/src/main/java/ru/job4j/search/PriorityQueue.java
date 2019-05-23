@@ -10,13 +10,13 @@ public class PriorityQueue {
      * @param task adding task
      */
     public void put(Task task) {
-        int j = 0;
+        var j = 0;
         for (; j < tasks.size(); j++) {
             if (tasks.get(j).getPriority() > task.getPriority()) {
                 break;
             }
         }
-        tasks.add(j, task);
+        this.tasks.add(j, task);
     }
 
     public Task take() {

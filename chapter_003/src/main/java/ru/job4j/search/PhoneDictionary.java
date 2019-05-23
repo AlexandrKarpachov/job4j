@@ -16,7 +16,7 @@ public class PhoneDictionary {
      * @return List of found persons.
      */
     public List<Person> find(String key) {
-        List<Person> result = new ArrayList<>();
+        var result = new ArrayList<Person>();
         for (Person person: persons) {
             if (search(person, key)) {
                 result.add(person);
@@ -31,7 +31,7 @@ public class PhoneDictionary {
      * @param key for searching
      */
     private boolean search(Person person, String key) {
-        boolean result = false;
+        var result = false;
         if (person.getAddress().contains(key)
             || person.getName().contains(key)
             || person.getPhone().contains(key)

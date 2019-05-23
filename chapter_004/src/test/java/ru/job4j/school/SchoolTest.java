@@ -2,6 +2,7 @@ package ru.job4j.school;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -103,4 +104,35 @@ public class SchoolTest {
         assertThat(actual, is(expect));
     }
 
+    @Test
+    public void whenPutListWithNullThanGetSorted() {
+        var school = new School();
+        var students = Arrays.asList(
+                null,
+                new Student("Ivan", "Ivanov", 45),
+                new Student("Vasyl", "Grishin", 50),
+                null,
+                new Student("Petr", "Perviy", 75)
+        );
+
+        var expect = Arrays.asList(
+                new Student("Petr", "Perviy", 75),
+                new Student("Vasyl", "Grishin", 50)
+        );
+        var actual = school.levelOf(students, 50);
+        assertThat(expect, is(actual));
+    }
+
+    @Test
+    public void whenPutOnlyNullThanGetEmpty() {
+        var school = new School();
+        List<Student> students = Arrays.asList(
+                null,
+                null,
+                null
+        );
+        var expect = new ArrayList<Student>();
+        var actual = school.levelOf(students, 35);
+        assertThat(expect, is(actual));
+    }
 }
