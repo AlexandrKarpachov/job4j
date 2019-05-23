@@ -60,25 +60,16 @@ public enum  Bank {
      * exists in {@param this.users}
      */
     public User getUserByPassport(String passport) {
-        User result = null;
-        for (Map.Entry<User, ArrayList<Account>> user : users.entrySet()) {
-            if (user.getKey().getPassport().equals(passport)) {
-                result = user.getKey();
-                break;
-            }
-        }
-        return result;
+        return this.users.keySet().stream()
+                .filter(user -> user.getPassport().equals(passport))
+                .findFirst().orElse(null);
     }
 
     /**
      * This method returns List with all users
      */
     public List<User> getAllUsers() {
-        List<User> result = new ArrayList<>();
-        for (Map.Entry<User, ArrayList<Account>> entry : users.entrySet()) {
-            result.add(entry.getKey());
-        }
-        return result;
+        return new ArrayList<>(this.users.keySet());
     }
 
     /**
@@ -115,15 +106,11 @@ public enum  Bank {
      * Method search Accounts by User passport and requisites
      */
     private Account getAccountByRequisite(String passport, String requisite) {
-        Account result = null;
         User user = getUserByPassport(passport);
-        for (Account account : this.getUserAccounts(user.getPassport())) {
-            if (account.getRequisites().equals(requisite)) {
-                result = account;
-                break;
-            }
-        }
-        return result;
+        List<Account> userAccounts = this.getUserAccounts(user.getPassport());
+        return userAccounts.stream()
+                .filter(e -> e.getRequisites().equals(requisite))
+                .findFirst().orElse(null);
     }
 
 
