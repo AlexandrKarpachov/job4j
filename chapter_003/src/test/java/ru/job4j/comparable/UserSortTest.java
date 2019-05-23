@@ -35,7 +35,7 @@ public class UserSortTest {
                 new User("Petya", 37),
                 new User("Ivan", 18)
         );
-        List<User> expected = Arrays.asList(
+        List<User> expected = List.of(
                 new User("Yan", 25),
                 new User("Ivan", 18),
                 new User("Vasya", 25),
@@ -55,7 +55,7 @@ public class UserSortTest {
                 new User("Vasya", 37)
 
         );
-        List<User> expected = Arrays.asList(
+        List<User> expected = List.of(
                 new User("Gennadiy", 18),
                 new User("Vasya", 37),
                 new User("Vasya", 45),

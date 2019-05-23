@@ -11,7 +11,7 @@ public class UserConvertTest {
     @Test
     public void whenPut3UsersAndGot3Users() {
         UserConvert convert = new UserConvert();
-        List<User> users = Arrays.asList(
+        List<User> users = List.of(
                 new User(1, "Vasya", "Moscow"),
                 new User(2, "Fedor", "Kiev"),
                 new User(3, "Ivan", "Minsk")
@@ -23,7 +23,7 @@ public class UserConvertTest {
     @Test
     public void whenPut3UsersAndGetById() {
         UserConvert convert = new UserConvert();
-        List<User> users = Arrays.asList(
+        List<User> users = List.of(
                 new User(1, "Vasya", "Moscow"),
                 new User(2, "Fedor", "Kiev"),
                 new User(3, "Ivan", "Minsk")

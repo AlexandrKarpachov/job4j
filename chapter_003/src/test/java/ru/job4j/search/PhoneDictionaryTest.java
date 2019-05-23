@@ -21,21 +21,20 @@ public class PhoneDictionaryTest {
     @Test
     public void whenSeveralMatches() {
         PhoneDictionary phones = new PhoneDictionary();
-        List<Person> expected = new ArrayList<>();
         Person petr = new Person("Petr", "Arsentev", "534872", "Bryansk");
         Person vasya = new Person("Vasya", "Ivanov", "666666", "Kiev");
         Person evgeniy = new Person("Evgeniy", "Ivanov", "777777", "Moscow");
         Person ivan = new Person("Ivan", "Petrov", "555555", "Odessa");
-
         phones.add(petr);
         phones.add(vasya);
         phones.add(evgeniy);
         phones.add(ivan);
 
-        expected.add(vasya);
-        expected.add(evgeniy);
-        expected.add(new Person("Ivan", "Petrov", "555555", "Odessa"));
-
+        List<Person> expected = List.of(
+                vasya,
+                evgeniy,
+                new Person("Ivan", "Petrov", "555555", "Odessa")
+        );
         List<Person> persons = phones.find("Ivan");
         assertThat(persons.equals(expected), is(true));
     }
