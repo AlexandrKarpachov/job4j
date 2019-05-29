@@ -28,4 +28,22 @@ public class FilterTest {
         var result = filter.sumOfEvenSqrs(arr);
         assertThat(0, is(result));
     }
+
+    @Test
+    public void whenCompareAnagramThenTrue() {
+        var first = "Merry";
+        var second = "Ryrem";
+        var filter = new Filter();
+        var result = filter.isAnagram(first, second);
+        assertThat(true, is(result));
+    }
+
+    @Test
+    public void whenCompareNonAnagramThenFalse() {
+        var first = "Merry";
+        var second = "Mmery";
+        var filter = new Filter();
+        var result = filter.isAnagram(first, second);
+        assertThat(false, is(result));
+    }
 }
