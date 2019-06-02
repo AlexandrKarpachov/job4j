@@ -29,4 +29,18 @@ public class SimpleStack<T> {
         storage.add(value);
         count++;
     }
+
+    /**
+     * Returns amount of elements in stack
+     */
+    public int size() {
+        return count;
+    }
+
+    /**
+     * Returns <tt>true</tt> if stack is empty. Otherwise <tt>false</tt>.
+     */
+    public boolean isEmpty() {
+        return count == 0;
+    }
 }
