@@ -42,7 +42,7 @@ public class SimpleArrayTest {
         assertThat(this.array.get(2), is(7));
     }
 
-    @Test(expected = ArrayOverflowException.class)
+    @Test(expected = OverflowException.class)
     public void addMoreThenSizeElementsThenException() {
         this.array.add(6);
     }
