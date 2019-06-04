@@ -30,6 +30,7 @@ public class SimpleLinkedList<E> {
         E result = this.first.data;
         this.first = this.first.next;
         f.next = null;
+        this.size--;
         return result;
     }
 
