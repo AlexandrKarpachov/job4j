@@ -10,15 +10,14 @@ import java.util.NoSuchElementException;
  */
 public class SimpleStack<T> {
     private SimpleLinkedList<T> storage = new SimpleLinkedList<>();
-    private int count = 0;
+
     /**
      * returns last input item and deletes it from stack
      */
     public T poll() {
-        if (count == 0) {
+        if (this.storage.getSize() == 0) {
             throw new NoSuchElementException();
         }
-        count--;
         return storage.delete();
     }
 
@@ -27,20 +26,19 @@ public class SimpleStack<T> {
      */
     public void push(T value) {
         storage.add(value);
-        count++;
     }
 
     /**
      * Returns amount of elements in stack
      */
     public int size() {
-        return count;
+        return this.storage.getSize();
     }
 
     /**
      * Returns <tt>true</tt> if stack is empty. Otherwise <tt>false</tt>.
      */
     public boolean isEmpty() {
-        return count == 0;
+        return this.storage.getSize() == 0;
     }
 }
