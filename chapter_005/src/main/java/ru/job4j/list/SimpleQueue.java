@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
 public class SimpleQueue<T> {
     private SimpleStack<T> in = new SimpleStack<>();
     private SimpleStack<T> out = new SimpleStack<>();
-    private int count = 0;
 
     /**
      * returns first input item and deletes it from queue
@@ -25,7 +24,6 @@ public class SimpleQueue<T> {
                 this.out.push(this.in.poll());
             }
         }
-        count--;
         return this.out.poll();
     }
 
@@ -34,20 +32,20 @@ public class SimpleQueue<T> {
      */
     public void push(T value) {
         in.push(value);
-        count++;
+
     }
 
     /**
      * Returns amount of elements in queue
      */
     public int size() {
-        return count;
+        return in.size() + out.size();
     }
 
     /**
      * Returns <tt>true</tt> if queue is empty. Otherwise <tt>false</tt>.
      */
     public boolean isEmpty() {
-        return count == 0;
+        return this.size() == 0;
     }
 }

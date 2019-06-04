@@ -28,5 +28,17 @@ public class SimpleStackTest {
         stack.poll();
     }
 
+    @Test
+    public void whenPushThreeTimesThenTwicePollThenSize1() {
+        var stack = new SimpleStack<Integer>();
+
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.poll();
+        stack.poll();
+        assertThat(stack.size(), is(1));
+
+    }
 
 }
