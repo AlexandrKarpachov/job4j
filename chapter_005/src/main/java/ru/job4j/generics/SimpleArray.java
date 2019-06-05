@@ -25,12 +25,12 @@ public class SimpleArray<T> implements Iterable<T> {
     /**
      * adds elements to array
      * @param model adding item
-     * @throws ArrayOverflowException if was an attempt to add more elements
+     * @throws OverflowException if was an attempt to add more elements
      * then this array size.
      */
     public void add(T model) {
       if (count >= array.length) {
-            throw new ArrayOverflowException();
+            throw new OverflowException();
         }
         array[count++] = model;
     }

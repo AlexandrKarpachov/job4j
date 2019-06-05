@@ -81,14 +81,4 @@ public class CustomLinkedList<T> implements Iterable<T> {
     }
 }
 
-/**
- * Node for storing value
- */
-class Node<T> {
-    Node<T> next;
-    T value;
 
-    Node(T value) {
-        this.value = value;
-    }
-}
