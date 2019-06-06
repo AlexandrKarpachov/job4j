@@ -72,6 +72,13 @@ public class SimpleArray<T> implements Iterable<T> {
         return result;
     }
 
+    /**
+     * Returns the number of items in an array.
+     */
+    public int size() {
+        return count;
+    }
+
     @Override
     public String toString() {
         return Stream.of(array)
