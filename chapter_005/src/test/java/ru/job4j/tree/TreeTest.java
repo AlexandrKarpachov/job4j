@@ -1,5 +1,6 @@
 package ru.job4j.tree;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
@@ -8,15 +9,18 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class TreeTest {
+    Tree<Integer> tree = new Tree<>(1);
 
-    @Test
-    public void when6ElFindLastThen6() {
-        Tree<Integer> tree = new Tree<>(1);
+    @Before
+    public void fillingTree() {
         tree.add(1, 2);
         tree.add(1, 3);
         tree.add(1, 4);
         tree.add(4, 5);
         tree.add(5, 6);
+    }
+    @Test
+    public void when6ElFindLastThen6() {
         assertThat(
                 tree.findBy(6).isPresent(),
                 is(true)
@@ -35,16 +39,6 @@ public class TreeTest {
 
     @Test
     public void iteratorTest() {
-        Tree<Integer> tree = new Tree<>(1);
-        tree.add(1, 2);
-        tree.add(1, 3);
-        tree.add(1, 4);
-        tree.add(4, 5);
-        tree.add(5, 6);
-        assertThat(
-                tree.findBy(6).isPresent(),
-                is(true)
-        );
         List<Integer> expected = List.of(1, 2, 3, 4, 5, 6);
         List<Integer> actual = new ArrayList<>();
         Iterator<Integer> it = tree.iterator();
@@ -55,4 +49,22 @@ public class TreeTest {
 
         assertThat(actual, is(expected));
     }
+
+    @Test
+    public void whenTreeNotBinaryThenFalse() {
+        assertThat(tree.isBinary(), is(false));
+    }
+
+    @Test
+    public void whenTreeBinaryThenIsBinaryTrue() {
+        tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(2, 4);
+        tree.add(2, 5);
+        tree.add(5, 6);
+        assertThat(tree.isBinary(), is(true));
+    }
+
+
 }

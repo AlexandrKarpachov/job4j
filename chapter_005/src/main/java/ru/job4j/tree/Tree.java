@@ -10,6 +10,18 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         this.root = new Node<>(root);
     }
 
+    public boolean isBinary() {
+        Iterator<Node<E>> iterator = this.nodeIterator();
+        var result = true;
+        while (iterator.hasNext()) {
+            if (iterator.next().leaves().size() > 2) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
     @Override
     public boolean add(E parent, E child) {
         var pNode = findBy(parent);
@@ -46,6 +58,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return rsl;
     }
 
+
     @Override
     public Iterator<E> iterator() {
         Queue<Node<E>> data = new LinkedList<>();
@@ -59,7 +72,6 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 return !data.isEmpty();
             }
 
-
             @Override
             public E next() {
                 if (!this.hasNext()) {
@@ -71,6 +83,33 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 this.current = data.poll();
                 data.addAll(current.leaves());
                 return current.getValue();
+            }
+        };
+    }
+
+    public Iterator<Node<E>> nodeIterator() {
+        Queue<Node<E>> data = new LinkedList<>();
+        data.offer(root);
+        return new Iterator<>() {
+            private Node<E> current = root;
+            private int expectedModCount = modCount;
+
+            @Override
+            public boolean hasNext() {
+                return !data.isEmpty();
+            }
+
+            @Override
+            public Node<E> next() {
+                if (!this.hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                this.current = data.poll();
+                data.addAll(current.leaves());
+                return this.current;
             }
         };
     }
