@@ -24,17 +24,21 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     @Override
     public boolean add(E parent, E child) {
-        var pNode = findBy(parent);
-        if (pNode.isEmpty()) {
-            throw new NoSuchElementException("Such parent does not exists");
-        }
         var result = false;
-        var isPresent = pNode.get().leaves()
+        var pNode = findBy(parent);
+        var isPresent = this.root.leaves()
                 .stream()
                 .anyMatch(x -> x.eqValue(child));
-        if (!isPresent) {
+        if (pNode.isEmpty() && !isPresent) {
+            Node<E> oldRoot = root;
+            this.root = new Node<>(parent);
+            this.root.add(new Node<>(child));
+            this.root.add(oldRoot);
+            this.modCount++;
+            result = true;
+        } else if (!isPresent) {
             pNode.get().add(new Node<>(child));
-            modCount++;
+            this.modCount++;
             result = true;
         }
         return result;

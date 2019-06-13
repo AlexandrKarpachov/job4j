@@ -66,5 +66,18 @@ public class TreeTest {
         assertThat(tree.isBinary(), is(true));
     }
 
+    @Test
+    public void whenAddNewNodeWithNonExistsParentThenNewRoot() {
+        tree.add(7, 8);
+        List<Integer> expected = List.of(7, 8, 1, 2, 3, 4, 5, 6);
+        List<Integer> actual = new ArrayList<>();
+
+        for (int entry : tree) {
+            actual.add(entry);
+        }
+
+        assertThat(actual, is(expected));
+    }
+
 
 }
