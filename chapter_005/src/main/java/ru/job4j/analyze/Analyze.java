@@ -52,7 +52,6 @@ public class Analyze {
         return info;
     }
 
-
     public static class User {
         private int id;
         private String name;
