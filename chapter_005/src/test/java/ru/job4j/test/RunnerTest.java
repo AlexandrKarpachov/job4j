@@ -14,7 +14,7 @@ public class RunnerTest {
     @Test
     public void whenLoadScriptWith6DependenciesThenListWithRightOder() {
         Map<Integer, List<Integer>> ds = new HashMap<>();
-        List<Integer> expected = List.of(7, 4, 5, 2, 6, 3);
+        List<Integer> expected = List.of(2, 3, 4, 5, 6, 7);
         ds.put(1, List.of(2, 3));
         ds.put(2, List.of(4, 5));
         ds.put(3, List.of(4, 6));

@@ -5,24 +5,24 @@ import java.util.*;
 public class Runner {
 
     /**
-     * Returns the order of running scripts
+     * Returns script dependencies
      *
      * @param ds script dependencies.
      * @param scriptId id of load script
      */
     public List<Integer> load(Map<Integer, List<Integer>> ds, Integer scriptId) {
-        var result = load(ds, scriptId, new LinkedHashSet<>());
+        Queue<Integer> stack = new LinkedList<>(ds.get(scriptId));
+        Set<Integer> result = new LinkedHashSet<>();
+        while (!stack.isEmpty()) {
+            int sc = stack.poll();
+            result.add(sc);
+            List<Integer> dependencies = ds.get(sc);
+            if (dependencies != null) {
+                stack.addAll(dependencies);
+            }
+        }
+
         return new ArrayList<>(result);
     }
 
-    private Set<Integer> load(Map<Integer, List<Integer>> ds, Integer scriptId, Set<Integer> list) {
-        List<Integer> dependencies = ds.get(scriptId);
-        if (dependencies != null) {
-            for (int id :dependencies) {
-                this.load(ds, id, list);
-                list.add(id);
-            }
-        }
-        return list;
-    }
 }
