@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
@@ -53,8 +54,10 @@ public class SearchTest {
 
     @Test
     public void whenSearchFilesThanGetListOfFiles() {
-        assertThat(this.search.files(this.root, List.of("txt", "log")),
-                is(List.of(file1, file2, file3, file4)));
+        var expected = List.of(file1, file2, file3, file4);
+        var actual = this.search.files(this.root, List.of("txt", "log"));
+
+        assertThat(actual, containsInAnyOrder(expected.toArray()));
     }
 
     @Test

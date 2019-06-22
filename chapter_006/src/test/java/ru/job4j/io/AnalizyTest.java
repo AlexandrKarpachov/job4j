@@ -17,7 +17,7 @@ public class AnalizyTest {
     @Before
     public void before() throws FileNotFoundException {
         tmp = System.getProperty("java.io.tmpdir");
-        PrintWriter out = new PrintWriter(new FileOutputStream(tmp + "server.log"));
+        PrintWriter out = new PrintWriter(new FileOutputStream(tmp + File.separator + "server.log"));
         out.println("200 10:56:01");
         out.println(System.lineSeparator());
         out.println("500 10:57:01");
@@ -36,8 +36,8 @@ public class AnalizyTest {
     @Test
     public void whenLogContains3PeriodsShould3Periods() throws FileNotFoundException {
         Analizy analizy = new Analizy();
-        analizy.unavailable(tmp + "server.log", tmp + "target.csv");
-        Scanner scanner = new Scanner(new FileInputStream(tmp + "target.csv"));
+        analizy.unavailable(tmp + File.separator + "server.log", tmp + File.separator + "target.log");
+        Scanner scanner = new Scanner(new FileInputStream(tmp + File.separator + "target.log"));
         assertThat(scanner.nextLine(), is("10:57:01;10:59:01"));
         assertThat(scanner.nextLine(), is("11:01:02;11:02:02"));
         scanner.close();
@@ -45,12 +45,12 @@ public class AnalizyTest {
 
     @After
     public void after() {
-        File file = new File(tmp + "server.log");
+        File file = new File(tmp + File.separator + "server.log");
         if (file.exists()) {
             //noinspection ResultOfMethodCallIgnored
             file.delete();
         }
-        file = new File(tmp + "target.csv");
+        file = new File(tmp + File.separator + "target.csv");
         if (file.exists()) {
             //noinspection ResultOfMethodCallIgnored
             file.delete();
