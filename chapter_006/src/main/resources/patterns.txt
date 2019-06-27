@@ -1,0 +1,48 @@
+## hello
+хай; hello
+привет; hello
+здорово; hello
+здравствуй; hello
+
+## who
+кто\s.*ты; who
+ты\s.*кто; who
+
+## name
+как\s.*зовут; name
+как\s.*имя; name
+есть\s.*имя; name
+какое\s.*имя; name
+
+## howareyou
+как\s.*дела; howareyou
+как\s.*жизнь; howareyou
+
+## whatdoyoudoing
+зачем\s.*тут; whatdoyoudoing
+зачем\s.*здесь; whatdoyoudoing
+что\s.*делаешь; whatdoyoudoing
+чем\s.*занимаешься; whatdoyoudoing
+
+## whatdoyoulike
+что\s.*нравится; whatdoyoulike
+что\s.*любишь; whatdoyoulike
+
+## iamfeelling
+кажется; iamfeelling
+чувствую; iamfeelling
+испытываю; iamfeelling
+
+## yes
+^да; yes
+согласен; yes
+
+## whattime
+который\s.*час; whattime
+сколько\s.*время; whattime
+
+## bye
+прощай; bye
+увидимся; bye
+до\s.*свидания; bye
+пока; bye

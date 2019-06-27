@@ -19,7 +19,7 @@ public class Zip {
 		var root = new File(arg.directory());
 		try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
 			for (File file : sources) {
-				zip.putNextEntry(new ZipEntry(file.getPath().substring(root.getParent().length())));
+				zip.putNextEntry(new ZipEntry(file.getPath().substring(root.getParent().length() + 1)));
 				try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(file))) {
 					zip.write(out.readAllBytes());
 				}
