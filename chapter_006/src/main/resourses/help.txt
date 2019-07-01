@@ -1,0 +1,13 @@
+File search program
+
+Keys:
+-d - directory for searching.
+-n - file name(include extention), mask, or regular expression (regex).
+-o - file for recording search results.
+Searching mods:
+-m - search by mask
+-f - search by full match.
+-r - search by regex.
+
+Example:
+-d C:\program files -m -n *le.exe -o D:\log.txt
