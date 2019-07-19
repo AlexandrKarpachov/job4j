@@ -22,7 +22,8 @@ INSERT INTO Product(product_name, type_id, expired_date, price) VALUES (
 );
 
 --1. Написать запрос получение всех продуктов с типом "СЫР"
-SELECT * FROM Product WHERE type_id = 1;
+SELECT * FROM Product INNER JOIN Type AS t ON p.type_id = t.id
+WHERE type_name = 'Сыр';
 
 --2. Написать запрос получения всех продуктов, у кого в имени есть слово "мороженное"
 SELECT * FROM Product WHERE product_name like '%Мороженное%';
