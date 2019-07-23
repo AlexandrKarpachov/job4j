@@ -9,11 +9,11 @@ import java.util.function.Consumer;
  */
 public class MenuTracker {
     private Input input;
-    private Tracker tracker;
+    private ITracker tracker;
     private List<UserAction> actions = new ArrayList<>();
     private Consumer<String> output;
 
-    public MenuTracker(Input input, Tracker tracker, Consumer<String> output) {
+    public MenuTracker(Input input, ITracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
         this.output = output;
@@ -53,7 +53,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             output.accept("------------ Adding a new application --------------");
             String name = input.ask("Enter applications name:");
             String desc = input.ask("Enter applications description :");
@@ -72,7 +72,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             List<Item> application = tracker.findAll();
             for (Item item : application) {
                 output.accept(String.format(
@@ -91,7 +91,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String id = input.ask("Please enter ID");
             Item edit = tracker.findById(id);
             if (edit == null) {
@@ -115,7 +115,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String id = input.ask("Please, Enter an ID");
             boolean result = tracker.delete(id);
             if (result) {
@@ -136,14 +136,14 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String id = input.ask("Please, enter ID");
             Item found = tracker.findById(id);
             if (found == null) {
                 output.accept("Sorry, Application with such ID does not exist");
             } else {
                 output.accept(String.format(
-                        "%s %s\r\n%d\r\n", found.getName(), found.getDecs(), found.getTime()
+                        "%s %s\r\n%d\r\n", found.getName(), found.getDesc(), found.getTime()
                 ));
             }
         }
@@ -159,7 +159,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String name = input.ask("Please, enter the Name");
             List<Item> found = tracker.findByName(name);
             if (found.size() < 1) {
@@ -167,7 +167,7 @@ public class MenuTracker {
             } else {
                 for (Item item: found) {
                     output.accept(String.format(
-                            "%s %s\r\n%d\r\n", item.getName(), item.getDecs(), item.getTime()
+                            "%s %s\r\n%d\r\n", item.getName(), item.getDesc(), item.getTime()
                     ));
                 }
             }

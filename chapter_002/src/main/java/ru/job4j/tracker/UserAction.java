@@ -11,7 +11,7 @@ public interface UserAction {
      * @param input object by Input type
      * @param tracker object by Tracker type
      */
-    void execute(Input input, Tracker tracker);
+    void execute(Input input, ITracker tracker);
 
     /**
      * Method returns info about this menu item
