@@ -114,7 +114,7 @@ public class StartUITest {
                 new StringBuilder()
                         .append(this.menu)
                         .append(item.getName() + " ")
-                        .append(item.getDecs() + "\r\n")
+                        .append(item.getDesc() + "\r\n")
                         .append(item.getTime() + "\r\n")
                         .toString()
         ));
@@ -134,10 +134,10 @@ public class StartUITest {
                 new StringBuilder()
                         .append(this.menu)
                         .append(first.getName() + " ")
-                        .append(first.getDecs() + "\r\n")
+                        .append(first.getDesc() + "\r\n")
                         .append(first.getTime() + "\r\n")
                         .append(second.getName() + " ")
-                        .append(second.getDecs() + "\r\n")
+                        .append(second.getDesc() + "\r\n")
                         .append(second.getTime() + "\r\n")
                         .toString()
         ));

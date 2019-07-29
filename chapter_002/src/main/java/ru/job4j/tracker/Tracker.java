@@ -6,7 +6,7 @@ import java.util.*;
  * @version $Id$
  * @since 0.1
  */
-public class Tracker {
+public class Tracker implements ITracker {
     /**
      * Application stored array
      */
@@ -36,7 +36,7 @@ public class Tracker {
      */
     public boolean replace(String id, Item item) {
         boolean result = false;
-        int index = indexOf(id);
+        int index = this.indexOf(id);
         if (index != -1) {
             this.items.set(index, item);
             result = true;
@@ -94,7 +94,6 @@ public class Tracker {
      */
     public List<Item> findByName(String key) {
         List<Item> result = new ArrayList<>();
-        int count = 0;
         for (int i = 0; i < this.position; i++) {
             if (this.items.get(i).getName().equals(key)) {
                 result.add(this.items.get(i));
