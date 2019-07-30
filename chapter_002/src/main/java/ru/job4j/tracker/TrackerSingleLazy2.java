@@ -3,7 +3,7 @@ package ru.job4j.tracker;
 import java.util.List;
 
 public class TrackerSingleLazy2 {
-    private static final Tracker TRACKER = new Tracker();
+    private static final ITracker TRACKER = new Tracker();
     private TrackerSingleLazy2() {
     }
 

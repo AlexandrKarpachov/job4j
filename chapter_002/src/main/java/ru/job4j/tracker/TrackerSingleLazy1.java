@@ -4,7 +4,7 @@ import java.util.List;
 
 public class TrackerSingleLazy1 {
     private static TrackerSingleLazy1 instance;
-    private static final Tracker TRACKER = new Tracker();
+    private static final ITracker TRACKER = new Tracker();
 
     private TrackerSingleLazy1() {
     }

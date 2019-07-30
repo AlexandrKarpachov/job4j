@@ -4,7 +4,7 @@ import java.util.List;
 
 public enum TrackerSingleEnum {
     INSTANCE;
-    Tracker track = new Tracker();
+    ITracker track = new Tracker();
 
         /**
          * The method that implements adding an application to the repository

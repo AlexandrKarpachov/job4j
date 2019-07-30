@@ -4,7 +4,7 @@ import java.util.List;
 
 public class TrackerSingleEager {
     private static final TrackerSingleEager INSTANCE = new TrackerSingleEager();
-    private static final Tracker TRACKER = new Tracker();
+    private static final ITracker TRACKER = new Tracker();
 
     private TrackerSingleEager() {
     }

@@ -6,18 +6,18 @@ import java.util.Objects;
 public class Item {
     private String id;
     private String name;
-    private String decs;
+    private String desc;
     private long time;
 
     public Item(String name, String decs) {
         this.name = name;
-        this.decs = decs;
+        this.desc = decs;
         this.time = new Date().getTime();
     }
 
     public Item(String name, String decs, long time) {
         this.name = name;
-        this.decs = decs;
+        this.desc = decs;
         this.time = time;
     }
 
@@ -38,12 +38,12 @@ public class Item {
         this.name = name;
     }
 
-    public String getDecs() {
-        return decs;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDecs(String decs) {
-        this.decs = decs;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public long getTime() {
@@ -67,11 +67,17 @@ public class Item {
         return time == item.time
                 && Objects.equals(id, item.id)
                 && Objects.equals(name, item.name)
-                && Objects.equals(decs, item.decs);
+                && Objects.equals(desc, item.desc);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Item {id = %s, name = %s, desc = %s, time = %s",
+                id, name, desc, new Date(time).toString());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, decs, time);
+        return Objects.hash(id, name, desc, time);
     }
 }
