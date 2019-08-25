@@ -19,7 +19,7 @@ public class StoreSQL implements AutoCloseable {
 	private static final Logger LOG = LoggerFactory.getLogger(StoreSQL.class);
 
 	private enum Query {
-		CREATE_TABLE("CREATE TABLE Entry (field INTEGER PRIMARY KEY)"),
+		CREATE_TABLE("CREATE TABLE IF NOT EXISTS Entry (field INTEGER PRIMARY KEY)"),
 		DELETE_TABLE("DROP TABLE Entry"),
 		INSERT("INSERT INTO Entry (field) VALUES (?)"),
 		SELECT_ALL("SELECT * FROM Entry"),
