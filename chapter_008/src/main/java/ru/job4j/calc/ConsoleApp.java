@@ -83,15 +83,25 @@ public class ConsoleApp {
 				wasExit = true;
 			} else if (this.operation.isEmpty() && !this.getOperation()) {
 				wasExit = true;
+			} else if (this.calculator.shortOperations().contains(this.operation)) {
+				var result = this.calculator.calculate(this.operation, this.previous);
+				this.printResult(result);
 			} else if (!this.getSecondNum()) {
 				wasExit = true;
 			} else {
 				var result = this.calculator.calculate(this.operation, this.previous, this.second);
-				System.out.println("result is " + result);
-				this.previous = result;
-				this.operation = "";
+				this.printResult(result);
 			}
 		}
+	}
+
+	/**
+	 * The method prints result on console, clears operator, and sets previous value
+	 */
+	private void printResult(double result) {
+		System.out.println("result is " + result);
+		this.previous = result;
+		this.operation = "";
 	}
 
 	/**

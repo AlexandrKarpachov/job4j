@@ -75,6 +75,54 @@ public class ConsoleAppTest {
 		assertThat(actual, is(-1.0));
 	}
 
+	@Test
+	public void whenCalculateCosThenOk() {
+		var input = new ManualInput(List.of("0", "cos", "q"));
+		var app = new ConsoleApp(input).init();
+
+		app.run();
+		var printed = out.toString();
+		var actual = this.getResult(printed);
+
+		assertThat(actual, is(1.0));
+	}
+
+	@Test
+	public void whenCalculateSinThenOk() {
+		var input = new ManualInput(List.of("0", "sin", "q"));
+		var app = new ConsoleApp(input).init();
+
+		app.run();
+		var printed = out.toString();
+		var actual = this.getResult(printed);
+
+		assertThat(actual, is(0.0));
+	}
+
+	@Test
+	public void whenCalculateSqrtThenOk() {
+		var input = new ManualInput(List.of("100", "sqrt", "q"));
+		var app = new ConsoleApp(input).init();
+
+		app.run();
+		var printed = out.toString();
+		var actual = this.getResult(printed);
+
+		assertThat(actual, is(10.0));
+	}
+
+	@Test
+	public void whenCalculatePowThenOk() {
+		var input = new ManualInput(List.of("10", "pow", "2", "q"));
+		var app = new ConsoleApp(input).init();
+
+		app.run();
+		var printed = out.toString();
+		var actual = this.getResult(printed);
+
+		assertThat(actual, is(100.0));
+	}
+
 	private double getResult(String output) {
 		var index = output.lastIndexOf("result is");
 		var result = output.substring(index + 10);
