@@ -14,7 +14,7 @@ import java.util.List;
  * storage for trash.
  */
 public class Trash implements Storage {
-	List<Food> products = new ArrayList<>();
+	private List<Food> products = new ArrayList<>();
 
 	@Override
 	public void add(Food food) {

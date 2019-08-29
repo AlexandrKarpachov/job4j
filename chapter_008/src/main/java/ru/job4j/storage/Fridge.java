@@ -6,15 +6,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author Aleksandr Karpachov
- * @version $Id$
- * @since 29.08.2019
- *
- */
-public class Warehouse implements Storage {
-
+public class Fridge implements Storage {
 	private List<Food> products = new ArrayList<>();
+	/**
+	 * celsius temperature
+	 */
+	private double temperature = 5;
 
 	@Override
 	public void add(Food food) {
@@ -24,5 +21,13 @@ public class Warehouse implements Storage {
 	@Override
 	public List<Food> getProductList() {
 		return Collections.unmodifiableList(this.products);
+	}
+
+	public double getTemperature() {
+		return temperature;
+	}
+
+	public void setTemperature(double temperature) {
+		this.temperature = temperature;
 	}
 }

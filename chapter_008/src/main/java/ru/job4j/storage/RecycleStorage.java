@@ -6,14 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author Aleksandr Karpachov
- * @version $Id$
- * @since 29.08.2019
- *
- */
-public class Warehouse implements Storage {
-
+public class RecycleStorage implements Storage {
 	private List<Food> products = new ArrayList<>();
 
 	@Override

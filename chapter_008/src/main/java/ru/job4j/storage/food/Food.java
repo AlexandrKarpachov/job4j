@@ -8,9 +8,12 @@ import java.util.Objects;
 */
 public class Food {
 	private String name;
-	private long experienceDate;
 	private long createdDate;
+	private long experienceDate;
 	private double discount = 0;
+	private boolean canRecycle = false;
+	private boolean needFridge = false;
+
 
 	public Food(String name, long createdDate, long experienceDate) {
 		this.name = name;
@@ -18,11 +21,26 @@ public class Food {
 		this.createdDate = createdDate;
 	}
 
+	public Food(String name, long createdDate, long experienceDate, boolean canRecycle) {
+		this.name = name;
+		this.createdDate = createdDate;
+		this.experienceDate = experienceDate;
+		this.canRecycle = canRecycle;
+	}
+
 	public Food(String name, long createdDate, long experienceDate, double discount) {
 		this.name = name;
 		this.experienceDate = experienceDate;
 		this.createdDate = createdDate;
 		this.discount = discount;
+	}
+
+	public Food(String name, long createdDate, long experienceDate, double discount, boolean canRecycle) {
+		this.name = name;
+		this.createdDate = createdDate;
+		this.experienceDate = experienceDate;
+		this.discount = discount;
+		this.canRecycle = canRecycle;
 	}
 
 	/**
@@ -62,6 +80,23 @@ public class Food {
 	public long getCreatedDate() {
 		return createdDate;
 	}
+
+	public boolean isCanRecycle() {
+		return canRecycle;
+	}
+
+	public void setCanRecycle(boolean canRecycle) {
+		this.canRecycle = canRecycle;
+	}
+
+	public boolean isNeedFridge() {
+		return needFridge;
+	}
+
+	public void setNeedFridge(boolean needFridge) {
+		this.needFridge = needFridge;
+	}
+
 
 	@Override
 	public boolean equals(Object o) {
