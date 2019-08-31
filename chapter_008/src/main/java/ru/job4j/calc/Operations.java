@@ -16,7 +16,7 @@ public class Operations {
 
 	private Calculator calculator;
 
-	private Map<String, Operation> operationsList = new HashMap<>();
+	protected Map<String, Operation> operationsList = new HashMap<>();
 
 	public Operations init() {
 		var add = new Add();

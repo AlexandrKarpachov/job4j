@@ -8,8 +8,6 @@ import java.util.List;
  * @author Aleksandr Karpachov
  * @version $Id$
  * @since 26.08.2019
- *
- *
  */
 public class ConsoleApp {
 
@@ -37,7 +35,7 @@ public class ConsoleApp {
 	);
 
 	/**
-	 * The firstArg welcome message which will be printed when program start.
+	 * The first welcome message which will be printed when program start.
 	 */
 	private String welcomeMsg() {
 		return "This program is a console operations"
@@ -55,17 +53,14 @@ public class ConsoleApp {
 		this.input = input;
 	}
 
-
-
-	/**
-	 * The main method which started the application.
-	 */
 	public static void main(String[] args) {
-		var app = new ConsoleApp(new Operations(new Calculator()), new ConsoleInput());
+		var app = new ConsoleApp(new EngineerOperations(new Calculator()), new ConsoleInput());
 		app.run();
-
 	}
 
+	/**
+	 * The method starts the application.
+	 */
 	public void run() {
 		System.out.println(this.welcomeMsg());
 		var isProceed = true;
@@ -91,21 +86,21 @@ public class ConsoleApp {
 
 	/**
 	 * The method asks a user for operator.
-	 * @return true if a user enters a correct value or false if He entered one of the exit keywords.
+	 * @return operator.
 	 */
 	private String getOperation() {
 		var result = "";
 		var resultObtained = false;
-		var answer = this.input.ask("Enter operator");
+		var answer = this.input.ask("Enter operator").toLowerCase();
 		while (!resultObtained) {
-			if (EXIT_COMMANDS.contains(answer.toLowerCase())) {
+			if (EXIT_COMMANDS.contains(answer)) {
 				System.exit(0);
 			}
 			if (this.operations.checkOperation(answer)) {
 				result = answer;
 				resultObtained = true;
 			} else {
-				answer = this.input.ask("Please, enter correct data");
+				answer = this.input.ask("Please, enter correct data").toLowerCase();
 			}
 		}
 		return result;
@@ -113,7 +108,7 @@ public class ConsoleApp {
 
 	/**
 	 * The method asks a user for a numeric.
-	 * @return true if a user enters a correct value or false if He entered one of the exit keywords.
+	 * @return number.
 	 */
 	private double getNumber(String msg) {
 		double result = Double.NaN;
