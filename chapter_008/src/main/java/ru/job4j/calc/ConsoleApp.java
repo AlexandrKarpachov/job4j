@@ -1,37 +1,32 @@
 package ru.job4j.calc;
 
+import ru.job4j.calculate.Calculator;
+
+import java.util.ArrayList;
 import java.util.List;
 /**
  * @author Aleksandr Karpachov
  * @version $Id$
  * @since 26.08.2019
  *
- * Before working with class is necessary to {@link #init()} it.
+ *
  */
 public class ConsoleApp {
 
-	private ICalculator calculator;
+	private Operations operations;
 	/**
 	 * this variable answers for data input
 	 */
 	private final Input input;
 	/**
-	 * the variable store first value or result of previous calculation.
+	 * store result of previous calculation or zero if it is first.
 	 */
 	private double previous = 0;
-	/**
-	 * the variable store second value
-	 */
-	private double second;
-	/**
-	 * the variable store operator.
-	 */
-	private String operation = "";
-	/**
-	 * It's a list of all available operators. for initiation this variable use {@link #init()} method.
-	 */
-	private List<String> operations;
 
+	/**
+	 * the variable store commands for using previous result.
+	 */
+	private static final List<String> PREVIOUS = List.of("p");
 	/**
 	 * It's a list of all commands which you can use for close the program.
 	 */
@@ -42,113 +37,72 @@ public class ConsoleApp {
 	);
 
 	/**
-	 * The first welcome message which will be printed when program start.
+	 * The firstArg welcome message which will be printed when program start.
 	 */
-	private final static String HELLO_MASSAGE = "This programm is a console calculator"
-			+ System.lineSeparator()
-			+ "available operations: "
-			+ new ICalculator().getOperationList().toString()
-			+ System.lineSeparator()
-			+ "For Exit enter one of these commands: "
-			+ EXIT_COMMANDS.toString()
-			+ System.lineSeparator();
+	private String welcomeMsg() {
+		return "This program is a console operations"
+				+ System.lineSeparator()
+				+ "available ListOfMarks: "
+				+ this.operations.getOperationList().toString()
+				+ System.lineSeparator()
+				+ "For Exit enter one of these commands: "
+				+ EXIT_COMMANDS.toString()
+				+ System.lineSeparator();
+	}
 
-	public ConsoleApp(Input input) {
+	public ConsoleApp(Operations operations, Input input) {
+		this.operations = operations.init();
 		this.input = input;
 	}
 
-	/**
-	 * the method initiates some variables for correct work.
-	 * @return an instance of this class.
-	 */
-	public ConsoleApp init() {
-		this.calculator = new ICalculator();
-		this.operations = this.calculator.getOperationList();
-		return this;
-	}
+
 
 	/**
 	 * The main method which started the application.
 	 */
 	public static void main(String[] args) {
-		var app = new ConsoleApp(new ConsoleInput()).init();
+		var app = new ConsoleApp(new Operations(new Calculator()), new ConsoleInput());
 		app.run();
+
 	}
 
 	public void run() {
-		System.out.println(HELLO_MASSAGE);
-		var wasExit = false;
-		while (!wasExit) {
-			if (!this.getFirstNum()) {
-				wasExit = true;
-			} else if (this.operation.isEmpty() && !this.getOperation()) {
-				wasExit = true;
-			} else if (this.calculator.shortOperations().contains(this.operation)) {
-				var result = this.calculator.calculate(this.operation, this.previous);
-				this.printResult(result);
-			} else if (!this.getSecondNum()) {
-				wasExit = true;
-			} else {
-				var result = this.calculator.calculate(this.operation, this.previous, this.second);
-				this.printResult(result);
+		System.out.println(this.welcomeMsg());
+		var isProceed = true;
+		while (isProceed) {
+			List<Double> args = new ArrayList<>();
+			String operation = this.getOperation();
+			var argsAmount = this.operations.getNumberOfArgs(operation);
+			for (int i = 0; i < argsAmount; i++) {
+				String msg = String.format("Enter %d value, for using result of previous calculations "
+						+ "enter one of these commands %s", i + 1, PREVIOUS);
+				args.add(this.getNumber(msg));
+			}
+			var rst = operations.calculate(operation, args);
+			this.previous = rst;
+			System.out.println("result is " + rst);
+			var proceed = this.input.ask("Do you want continue y/n");
+			if (!proceed.equalsIgnoreCase("y")
+					&& !proceed.equalsIgnoreCase("yes")) {
+				isProceed = false;
 			}
 		}
-	}
-
-	/**
-	 * The method prints result on console, clears operator, and sets previous value
-	 */
-	private void printResult(double result) {
-		System.out.println("result is " + result);
-		this.previous = result;
-		this.operation = "";
-	}
-
-	/**
-	 * The method asks a user for first value or operator.
-	 * * If the user enters an operator, the value of the previous calculation will be assigned to the first argument.
-	 * (If this is the first calculation firs value will be assigned by zero.)
-	 * @return true if a user enters a correct value or false if He entered one of the exit keywords.
-	 */
-	private boolean getFirstNum() {
-		var result = true;
-		var resultObtained = false;
-		var answer = this.input.ask("Enter first  or operator for working with previous value");
-		while (!resultObtained) {
-			if (EXIT_COMMANDS.contains(answer.toLowerCase())) {
-				result = false;
-				break;
-			}
-			if (this.operations.contains(answer)) {
-				this.operation = answer;
-				resultObtained = true;
-			} else {
-				try {
-					this.previous = Double.parseDouble(answer);
-					resultObtained = true;
-				} catch (Exception e) {
-					answer = this.input.ask("Please, enter correct data");
-				}
-			}
-		}
-		return result;
 	}
 
 	/**
 	 * The method asks a user for operator.
 	 * @return true if a user enters a correct value or false if He entered one of the exit keywords.
 	 */
-	private boolean getOperation() {
-		var result = true;
+	private String getOperation() {
+		var result = "";
 		var resultObtained = false;
 		var answer = this.input.ask("Enter operator");
 		while (!resultObtained) {
 			if (EXIT_COMMANDS.contains(answer.toLowerCase())) {
-				result = false;
-				break;
+				System.exit(0);
 			}
-			if (this.operations.contains(answer)) {
-				this.operation = answer;
+			if (this.operations.checkOperation(answer)) {
+				result = answer;
 				resultObtained = true;
 			} else {
 				answer = this.input.ask("Please, enter correct data");
@@ -161,23 +115,26 @@ public class ConsoleApp {
 	 * The method asks a user for a numeric.
 	 * @return true if a user enters a correct value or false if He entered one of the exit keywords.
 	 */
-	private boolean getSecondNum() {
-		var result = true;
+	private double getNumber(String msg) {
+		double result = Double.NaN;
 		var resultObtained = false;
-		var answer = this.input.ask("Enter second num");
+		var answer = this.input.ask(msg);
 		while (!resultObtained) {
 			if (EXIT_COMMANDS.contains(answer.toLowerCase())) {
-				result = false;
-				break;
+				System.exit(0);
 			}
-			try {
-				this.second = Double.parseDouble(answer);
+			if (PREVIOUS.contains(answer)) {
+				result = previous;
 				resultObtained = true;
-			} catch (Exception e) {
-				answer = this.input.ask("Please, enter correct data");
+			} else {
+				try {
+					result = Double.parseDouble(answer);
+					resultObtained = true;
+				} catch (Exception e) {
+					answer = this.input.ask("Please, enter correct data");
+				}
 			}
 		}
 		return result;
 	}
-
 }
