@@ -7,16 +7,26 @@ import java.util.Collections;
 import java.util.List;
 
 public class WarehouseTwo implements Storage {
+	private Warehouse warehouse;
+
+	public WarehouseTwo(Warehouse warehouse) {
+		this.warehouse = warehouse;
+	}
+
 	private List<Food> products = new ArrayList<>();
 
 	@Override
 	public void add(Food food) {
-		products.add(food);
+		if (warehouse.isFull()) {
+			products.add(food);
+		} else {
+			this.warehouse.add(food);
+		}
 	}
 
 	@Override
 	public boolean accept(Food food) {
-		return false;
+		return this.warehouse.accept(food);
 	}
 
 	@Override

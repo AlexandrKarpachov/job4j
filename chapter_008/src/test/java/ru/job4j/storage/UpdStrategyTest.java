@@ -15,7 +15,8 @@ import static org.junit.Assert.*;
 public class UpdStrategyTest {
 	private Trash trash;
 	private Shop shop;
-	private WarehouseTwo warehouse;
+	private Warehouse warehouse;
+	private WarehouseTwo warehouseUpd;
 	private RecycleStorage recycleStorage;
 	private Fridge fridge;
 	private ControlQuality controller;
@@ -25,13 +26,14 @@ public class UpdStrategyTest {
 	public void init() {
 		this.trash = new Trash();
 		this.shop = new Shop(DISCOUNT);
-		this.warehouse = new WarehouseTwo();
-		this.recycleStorage = new RecycleStorage();
-		this.fridge = new Fridge();
-		this.controller = new ControlQuality();
+		this.warehouse = new Warehouse(0);
+		this.warehouseUpd = new WarehouseTwo(this.warehouse);
+		this.recycleStorage = new RecycleStorage(this.trash);
+		this.fridge = new Fridge(this.warehouseUpd);
+		this.controller = new ControlQuality(List.of(recycleStorage, fridge, shop));
 	}
 
-	/*
+
 	@Test
 	public void whenAddExpiredFoodThenItDeliveredToTrash() {
 		var foodList = List.of(
@@ -54,7 +56,7 @@ public class UpdStrategyTest {
 
 		this.controller.distributeAll(foodList);
 
-		assertThat(this.warehouse.getProductList(), is(foodList));
+		assertThat(this.warehouseUpd.getProductList(), is(foodList));
 	}
 
 	@Test
@@ -95,9 +97,6 @@ public class UpdStrategyTest {
 
 		assertThat(food.getDiscount(), is(DISCOUNT));
 	}
-
-
-	 */
 
 	/**
 	 * The method adds days to the current date.

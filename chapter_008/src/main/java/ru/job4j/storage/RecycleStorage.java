@@ -7,16 +7,25 @@ import java.util.Collections;
 import java.util.List;
 
 public class RecycleStorage implements Storage {
+	private Trash trash;
 	private List<Food> products = new ArrayList<>();
+
+	public RecycleStorage(Trash trash) {
+		this.trash = trash;
+	}
 
 	@Override
 	public void add(Food food) {
-		products.add(food);
+		if (food.isCanRecycle()) {
+			this.products.add(food);
+		} else {
+			trash.add(food);
+		}
 	}
 
 	@Override
 	public boolean accept(Food food) {
-		return false;
+		return this.trash.accept(food);
 	}
 
 	@Override
