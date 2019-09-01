@@ -22,6 +22,11 @@ public class Warehouse implements Storage {
 	}
 
 	@Override
+	public boolean accept(Food food) {
+		return food.getTimeOfExisting() < 25;
+	}
+
+	@Override
 	public List<Food> getProductList() {
 		return Collections.unmodifiableList(this.products);
 	}

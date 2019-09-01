@@ -13,12 +13,30 @@ import java.util.List;
  * Shop storage
  */
 public class Shop implements Storage {
+	private double discount;
+
+	public Shop(double discount) {
+		this.discount = discount;
+	}
 
 	List<Food> products = new ArrayList<>();
 
 	@Override
 	public void add(Food food) {
 		products.add(food);
+	}
+
+	@Override
+	public boolean accept(Food food) {
+		var result = false;
+		var existingPercent = food.getTimeOfExisting();
+		if (existingPercent > 25 && existingPercent < 75) {
+			result = true;
+		} else if (existingPercent >= 75 && existingPercent < 100) {
+			food.setDiscount(discount);
+			result = true;
+		}
+		return result;
 	}
 
 	@Override

@@ -24,15 +24,14 @@ public class UpdStrategyTest {
 	@Before
 	public void init() {
 		this.trash = new Trash();
-		this.shop = new Shop();
+		this.shop = new Shop(DISCOUNT);
 		this.warehouse = new WarehouseTwo();
 		this.recycleStorage = new RecycleStorage();
 		this.fridge = new Fridge();
-		var strategy = new UpdStrategy(shop, warehouse, trash, recycleStorage, fridge);
-		strategy.setDiscount(DISCOUNT);
-		this.controller = new ControlQuality(strategy);
+		this.controller = new ControlQuality();
 	}
 
+	/*
 	@Test
 	public void whenAddExpiredFoodThenItDeliveredToTrash() {
 		var foodList = List.of(
@@ -97,6 +96,8 @@ public class UpdStrategyTest {
 		assertThat(food.getDiscount(), is(DISCOUNT));
 	}
 
+
+	 */
 
 	/**
 	 * The method adds days to the current date.

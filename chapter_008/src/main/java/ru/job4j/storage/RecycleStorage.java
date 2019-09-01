@@ -15,6 +15,11 @@ public class RecycleStorage implements Storage {
 	}
 
 	@Override
+	public boolean accept(Food food) {
+		return false;
+	}
+
+	@Override
 	public List<Food> getProductList() {
 		return Collections.unmodifiableList(this.products);
 	}

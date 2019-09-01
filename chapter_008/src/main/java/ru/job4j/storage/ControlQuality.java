@@ -1,30 +1,48 @@
 package ru.job4j.storage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.storage.food.Food;
 
 import java.util.List;
 
 public class ControlQuality {
+	private List<Storage> stores;
+	private static final Logger LOG = LoggerFactory.getLogger(ControlQuality.class);
 
-	private DistributionStrategy strategy;
-
-	public ControlQuality(DistributionStrategy strategy) {
-		this.strategy = strategy;
+	public ControlQuality(List<Storage> stores) {
+		this.stores = stores;
 	}
 
-	public void setStrategy(DistributionStrategy strategy) {
-		this.strategy = strategy;
+	public ControlQuality() {
 	}
 
-	public void distribute(Food product) {
-		this.strategy.distribute(product);
+	public void addStore(Storage storage) {
+		this.stores.add(storage);
 	}
 
-	public void distributeAll(List<Food> products) {
-		products.forEach(this::distribute);
+
+	public void distribute(Food food) {
+		var isDistributed = false;
+		for (Storage storage : this.stores) {
+			if (storage.accept(food)) {
+				storage.add(food);
+				isDistributed = true;
+				break;
+			}
+		}
+		if (!isDistributed) {
+			LOG.error(String.format(
+					"%s was not distributed. Not suitable stores",
+					food.toString()
+			));
+		}
 	}
 
-	public static void main(String[] args) {
-
+	public void distributeAll(List<Food> food) {
+		food.forEach(this::distribute);
 	}
+
+
+
 }

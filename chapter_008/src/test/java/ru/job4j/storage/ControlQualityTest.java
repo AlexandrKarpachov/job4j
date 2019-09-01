@@ -20,9 +20,9 @@ public class ControlQualityTest {
 	@Before
 	public void init() {
 		this.trash = new Trash();
-		this.shop = new Shop();
+		this.shop = new Shop(DISCOUNT);
 		this.warehouse = new Warehouse();
-		this.controller = new ControlQuality(new MainStrategy(shop, warehouse, trash, DISCOUNT));
+		this.controller = new ControlQuality(List.of(trash, shop, warehouse));
 	}
 
 	@Test

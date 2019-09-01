@@ -22,6 +22,11 @@ public class Trash implements Storage {
 	}
 
 	@Override
+	public boolean accept(Food food) {
+		return food.getTimeOfExisting() >= 100;
+	}
+
+	@Override
 	public List<Food> getProductList() {
 		return Collections.unmodifiableList(this.products);
 	}
