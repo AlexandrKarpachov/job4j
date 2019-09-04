@@ -33,4 +33,12 @@ public class WarehouseTwo implements Storage {
 	public List<Food> getProductList() {
 		return Collections.unmodifiableList(this.products);
 	}
+
+	@Override
+	public List<Food> removeFood() {
+		List<Food> result = new ArrayList<>(this.products);
+		result.addAll(this.warehouse.removeFood());
+		this.products.clear();
+		return result;
+	}
 }

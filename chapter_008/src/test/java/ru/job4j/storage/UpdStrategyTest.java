@@ -15,7 +15,6 @@ import static org.junit.Assert.*;
 public class UpdStrategyTest {
 	private Trash trash;
 	private Shop shop;
-	private Warehouse warehouse;
 	private WarehouseTwo warehouseUpd;
 	private RecycleStorage recycleStorage;
 	private Fridge fridge;
@@ -26,8 +25,8 @@ public class UpdStrategyTest {
 	public void init() {
 		this.trash = new Trash();
 		this.shop = new Shop(DISCOUNT);
-		this.warehouse = new Warehouse(0);
-		this.warehouseUpd = new WarehouseTwo(this.warehouse);
+		Warehouse warehouse = new Warehouse(0);
+		this.warehouseUpd = new WarehouseTwo(warehouse);
 		this.recycleStorage = new RecycleStorage(this.trash);
 		this.fridge = new Fridge(this.warehouseUpd);
 		this.controller = new ControlQuality(List.of(recycleStorage, fridge, shop));

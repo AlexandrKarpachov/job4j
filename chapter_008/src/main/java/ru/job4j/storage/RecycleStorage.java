@@ -32,4 +32,12 @@ public class RecycleStorage implements Storage {
 	public List<Food> getProductList() {
 		return Collections.unmodifiableList(this.products);
 	}
+
+	@Override
+	public List<Food> removeFood() {
+		List<Food> result = new ArrayList<>(this.products);
+		result.addAll(this.trash.removeFood());
+		this.products.clear();
+		return result;
+	}
 }

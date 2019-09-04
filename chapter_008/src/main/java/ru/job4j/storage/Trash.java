@@ -30,4 +30,11 @@ public class Trash implements Storage {
 	public List<Food> getProductList() {
 		return Collections.unmodifiableList(this.products);
 	}
+
+	@Override
+	public List<Food> removeFood() {
+		List<Food> result = new ArrayList<>(this.products);
+		this.products.clear();
+		return result;
+	}
 }

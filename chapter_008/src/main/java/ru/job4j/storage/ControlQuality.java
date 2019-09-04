@@ -43,6 +43,11 @@ public class ControlQuality {
 		food.forEach(this::distribute);
 	}
 
-
+	public void recycle() {
+		for (Storage storage: this.stores) {
+			var temp = storage.removeFood();
+			this.distributeAll(temp);
+		}
+	}
 
 }

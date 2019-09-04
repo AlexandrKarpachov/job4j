@@ -38,6 +38,14 @@ public class Fridge implements Storage {
 		return Collections.unmodifiableList(this.products);
 	}
 
+	@Override
+	public List<Food> removeFood() {
+		List<Food> result = new ArrayList<>(this.products);
+		result.addAll(this.storage.removeFood());
+		this.products.clear();
+		return result;
+	}
+
 	public double getTemperature() {
 		return temperature;
 	}

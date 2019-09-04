@@ -17,4 +17,6 @@ public interface Storage {
 	boolean accept(Food food);
 
 	List<Food> getProductList();
+
+	List<Food> removeFood();
 }

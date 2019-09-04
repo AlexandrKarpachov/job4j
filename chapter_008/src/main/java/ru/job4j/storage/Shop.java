@@ -40,6 +40,13 @@ public class Shop implements Storage {
 	}
 
 	@Override
+	public List<Food> removeFood() {
+		List<Food> result = new ArrayList<>(this.products);
+		this.products.clear();
+		return result;
+	}
+
+	@Override
 	public List<Food> getProductList() {
 		return Collections.unmodifiableList(this.products);
 	}
