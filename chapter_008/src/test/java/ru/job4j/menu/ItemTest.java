@@ -36,7 +36,8 @@ public class ItemTest {
 						 "\t\t1.1.1 nested1",
 						 "\t\t1.1.2 nested2",
 						 "\t1.2 nested2",
-						 "2 root2\r\n");
+						 "2 root2" + System.lineSeparator()
+		);
 
 		var actual = menu.show();
 
