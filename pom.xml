@@ -57,10 +57,8 @@
         <module>chapter_008</module>
         <module>puzzle</module>
         <module>tictactoe</module>
+        <module>chess</module>
     </modules>
-
-
-
     <build>
         <plugins>
             <plugin>
@@ -121,7 +119,6 @@
         </plugins>
     </build>
     <dependencies>
-
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-core</artifactId>
@@ -195,5 +192,4 @@
             <version>2.11.1</version>
         </dependency>
     </dependencies>
-
 </project>
