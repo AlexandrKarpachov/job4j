@@ -22,7 +22,7 @@ public class StartUITest {
     private Tracker tracker;
     private final PrintStream stdOut = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    private final Consumer<String> output = new Consumer<String>() {
+    private final Consumer<String> output = new Consumer<>() {
         private final PrintStream stdout = new PrintStream(out);
 
         @Override
@@ -147,7 +147,9 @@ public class StartUITest {
     public void whenUpdateThenTrackerHasUpdatedValue() {
         Item item = this.tracker.add(new Item("test name", "desc"));
         Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "change ticket", "y"});
+
         new StartUI(input, this.tracker, output).init();
+
         assertThat(this.tracker.findById(item.getId()).getName(), is("test replace"));
     }
 
@@ -158,7 +160,8 @@ public class StartUITest {
         List<Item> expected = Arrays.asList(first);
         Input input = new StubInput(new String[]{"3", second.getId(), "y"});
         new StartUI(input, this.tracker, output).init();
-        assertThat(expected, is(this.tracker.findAll()));
+
+        assertThat(this.tracker.findAll(), is(expected));
     }
 
     @Test
