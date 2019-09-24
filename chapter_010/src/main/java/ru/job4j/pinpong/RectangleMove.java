@@ -13,8 +13,8 @@ public class RectangleMove implements Runnable {
 
 	@Override
 	public void run() {
-		while (true) {
-			int direction = 1;
+		int direction = 1;
+		while (!Thread.currentThread().isInterrupted()) {
 			if (this.rect.getX() == this.fieldWidth - rect.getWidth()) {
 				direction = -1;
 			}
