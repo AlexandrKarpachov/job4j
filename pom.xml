@@ -193,5 +193,11 @@
             <artifactId>log4j-core</artifactId>
             <version>2.11.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>net.jcip</groupId>
+            <artifactId>jcip-annotations</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>
