@@ -17,8 +17,6 @@ public class SimpleBlockingQueue<T> {
 	@GuardedBy("this")
 	private Queue<T> queue = new LinkedList<>();
 	private final int capacity;
-	private final Object reader = new Object();
-	private final Object writer = new Object();
 
 	public SimpleBlockingQueue(int capacity) {
 		this.capacity = capacity;
@@ -47,6 +45,12 @@ public class SimpleBlockingQueue<T> {
 			T result = queue.poll();
 			this.notify();
 			return result;
+		}
+	}
+
+	public boolean isEmpty() {
+		synchronized (this) {
+			return this.queue.isEmpty();
 		}
 	}
 }
