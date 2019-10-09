@@ -26,10 +26,18 @@ public class Board {
 		return this;
 	}
 
+	public boolean isLocked(Cell cell) {
+		return this.board[cell.getX()][cell.getY()].isLocked();
+	}
+
+	public boolean addObstacle(Cell cell) {
+		return this.board[cell.getX()][cell.getY()].tryLock();
+	}
+
 	public boolean move(Cell source, Cell dist)  {
 		boolean result = false;
 		try {
-			result = board[dist.getX()][dist.getY()].tryLock(500, TimeUnit.MILLISECONDS);
+			result = this.board[dist.getX()][dist.getY()].tryLock(500, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
