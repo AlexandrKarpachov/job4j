@@ -27,6 +27,7 @@ public class DeadLock {
 			this.launcher = launcher;
 		}
 
+		@Override
 		public void run() {
 			synchronized (LOCK_1) {
 				System.out.println("Thread 1: Lock1 blocked");
@@ -52,6 +53,7 @@ public class DeadLock {
 			this.launcher = launcher;
 		}
 
+		@Override
 		public void run() {
 			synchronized (LOCK_2) {
 				System.out.println("Thread 2: Lock2 blocked");
