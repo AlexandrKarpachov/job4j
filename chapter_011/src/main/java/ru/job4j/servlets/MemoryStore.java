@@ -32,6 +32,8 @@ public class MemoryStore implements Store {
         var result = false;
         var oldUser = STORAGE.get(user.getId());
         if (oldUser != null) {
+            oldUser.setName(user.getName());
+            oldUser.setEmail(user.getEmail());
             oldUser.setCreateDate(user.getCreateDate());
             result = true;
         }

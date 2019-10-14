@@ -9,9 +9,13 @@ public class User {
     private String email;
     private String createDate;
 
-    public User(Integer id, String login) {
+
+
+    public User(Integer id, String login, String name, String email) {
         this.id = id;
         this.login = login;
+        this.name = name;
+        this.email = email;
     }
 
     public User(Integer id, String login, String name, String email, String createDate) {

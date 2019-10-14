@@ -35,8 +35,7 @@ public class ValidateService implements Validate {
     private boolean isOriginal(User user) {
         var result = true;
         for (User eUser : STORE.findAll()) {
-            if (eUser.getName().equalsIgnoreCase(user.getName())
-                    || eUser.getId().equals(user.getId())
+            if (eUser.getId().equals(user.getId())
                     || eUser.getLogin().equalsIgnoreCase(user.getLogin())) {
                 result = false;
                 break;
