@@ -7,8 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MemoryStore implements Store {
     private final static MemoryStore INSTANCE = new MemoryStore();
-    private final static AtomicInteger ID_COUNTER = new AtomicInteger(0);
-    private final static ConcurrentHashMap<Integer, User> STORAGE = new ConcurrentHashMap<>();
+    private final  AtomicInteger idCounter = new AtomicInteger(0);
+    private final ConcurrentHashMap<Integer, User> storage = new ConcurrentHashMap<>();
 
     private MemoryStore() {
     }
@@ -19,18 +19,18 @@ public class MemoryStore implements Store {
 
     @Override
     public int generateID() {
-        return ID_COUNTER.getAndIncrement();
+        return idCounter.getAndIncrement();
     }
 
     @Override
     public boolean add(User user) {
-        return STORAGE.putIfAbsent(user.getId(), user) == null;
+        return storage.putIfAbsent(user.getId(), user) == null;
     }
 
     @Override
-    public synchronized boolean update(User user) {
+    public boolean update(User user) {
         var result = false;
-        var oldUser = STORAGE.get(user.getId());
+        var oldUser = storage.get(user.getId());
         if (oldUser != null) {
             oldUser.setName(user.getName());
             oldUser.setEmail(user.getEmail());
@@ -42,16 +42,16 @@ public class MemoryStore implements Store {
 
     @Override
     public boolean delete(User user) {
-        return STORAGE.remove(user.getId()) != null;
+        return storage.remove(user.getId()) != null;
     }
 
     @Override
     public List<User> findAll() {
-        return new ArrayList<>(STORAGE.values());
+        return new ArrayList<>(storage.values());
     }
 
     @Override
     public User findById(User user) {
-        return STORAGE.get(user.getId());
+        return storage.get(user.getId());
     }
 }
