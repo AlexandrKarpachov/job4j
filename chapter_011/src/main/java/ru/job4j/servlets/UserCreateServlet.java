@@ -40,7 +40,6 @@ public class UserCreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
         User user = new User(
                 this.validate.generateID(),
                 req.getParameter("login"),
@@ -51,26 +50,9 @@ public class UserCreateServlet extends HttpServlet {
         var result = this.validate.add(user);
         String answer;
         if (result) {
-            answer = "You add new User";
+            resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
         } else {
-            answer = "Please enter correct data";
+            resp.sendRedirect(String.format("%s/create.jsp", req.getContextPath()));
         }
-        writer.append("<!DOCTYPE html>\n"
-                + "<html lang=\"en\">\n"
-                + "<head>\n"
-                + "    <meta charset=\"UTF-8\">\n"
-                + "    <title>Title</title>\n"
-                + "</head>\n"
-                + "<body>\n"
-                + answer
-                + "</body>\n"
-                + "</html>");
-        writer.flush();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        this.doGet(req, resp);
     }
 }

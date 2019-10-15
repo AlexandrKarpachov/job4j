@@ -51,5 +51,6 @@ public class UserUpdateServlet extends HttpServlet {
                 req.getParameter("createDate")
         );
         this.validate.update(user);
+        resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
     }
 }
