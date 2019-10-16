@@ -8,7 +8,7 @@ public class ValidateService implements Validate {
     private static final Pattern CYRILLIC = Pattern.compile("^([а-яА-Я0-9]+$)");
     private static final Pattern LATIN = Pattern.compile("^([a-zA-Z0-9]+$)");
     private static final Pattern EMAIL = Pattern.compile("^[a-z0-9._\\-]+@[a-z]+\\.[a-z]+$");
-    private static Store store = MemoryStore.getInstance();
+    private static Store store = DbStore.getInstance();
 
     private ValidateService() {
     }
