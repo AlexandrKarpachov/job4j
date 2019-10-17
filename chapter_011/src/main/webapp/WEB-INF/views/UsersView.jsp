@@ -1,6 +1,9 @@
 <%@ page import="ru.job4j.servlets.User" %>
 <%@ page import="ru.job4j.servlets.Validate" %>
-<%@ page import="ru.job4j.servlets.ValidateService" %><%--
+<%@ page import="ru.job4j.servlets.ValidateService" %>
+<%@ page import="java.util.List" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%--
   Created by IntelliJ IDEA.
   User: Admin
   Date: 15.10.2019
@@ -16,25 +19,25 @@
         <tr>
             <th>Login</th><th>Name</th><th>Email</th>
         </tr>
-        <% for (User user : ValidateService.getInstance().findAll()) { %>
+        <c:forEach items="${users}" var="user">
             <tr>
-                <td><%=user.getLogin()%></td>
-                <td><%=user.getName() %></td>
-                <td><%=user.getEmail()%></td>
+                <td><c:out value="${user.login}"></c:out></td>
+                <td><c:out value="${user.name}"></c:out></td>
+                <td><c:out value="${user.email}"></c:out></td>
                 <td>
-                    <form action="<%=request.getContextPath()%>/edit.jsp" method="get">
-                    <input type='hidden' name='id' value="<%=user.getId()%>">
+                    <form action="${pageContext.servletContext.contextPath}/edit" method="get">
+                    <input type='hidden' name='id' value="<c:out value="${user.id}"></c:out>">
                     <input type='submit' value='Edit'>
                     </form>
                 </td>
                 <td>
                     <form action="<%=request.getContextPath()%>/users" method="post">
-                        <input type="hidden" name="id" value="<%=user.getId()%>">
+                        <input type="hidden" name="id" value="<c:out value="${user.id}"></c:out>">
                         <input type="submit" value="Delete">
                     </form>
                 </td>
             </tr>
-        <% } %>
+            </c:forEach>
         </table>
         <form action="<%=request.getContextPath()%>/create" method='get'>
         <input type="submit" value="Add new User">

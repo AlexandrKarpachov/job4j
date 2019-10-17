@@ -12,7 +12,7 @@
         <title>Title</title>
     </head>
     <body>
-        <form action="<%=request.getContextPath()%>/create" method="post">
+        <form action="${pageContext.servletContext.contextPath}/create" method="post">
             <input type="text" name="name" value=""/>Name<br>
             <input type="text" name="login" value=""/>Login<br>
             <input type="text" name="email" value=""/>Email<br>
