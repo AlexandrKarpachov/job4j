@@ -1,7 +1,3 @@
-<%@ page import="ru.job4j.servlets.User" %>
-<%@ page import="ru.job4j.servlets.Validate" %>
-<%@ page import="ru.job4j.servlets.ValidateService" %>
-<%@ page import="java.util.List" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%--
   Created by IntelliJ IDEA.
@@ -17,7 +13,7 @@
     <body>
         <table border>
         <tr>
-            <th>Login</th><th>Name</th><th>Email</th>
+            <th>Login</th><th>Name</th><th>Email</th><th>Photo</th>
         </tr>
         <c:forEach items="${users}" var="user">
             <tr>
@@ -25,13 +21,17 @@
                 <td><c:out value="${user.name}"></c:out></td>
                 <td><c:out value="${user.email}"></c:out></td>
                 <td>
+                    <img src="${pageContext.servletContext.contextPath}/download?name=${user.photoId}"
+                         alt="${pageContext.servletContext.contextPath}/${user.photoId}" width="100px" height="100px"/>
+                </td>
+                <td>
                     <form action="${pageContext.servletContext.contextPath}/edit" method="get">
                     <input type='hidden' name='id' value="<c:out value="${user.id}"></c:out>">
                     <input type='submit' value='Edit'>
                     </form>
                 </td>
                 <td>
-                    <form action="<%=request.getContextPath()%>/users" method="post">
+                    <form action="${pageContext.servletContext.contextPath}/users" method="post">
                         <input type="hidden" name="id" value="<c:out value="${user.id}"></c:out>">
                         <input type="submit" value="Delete">
                     </form>

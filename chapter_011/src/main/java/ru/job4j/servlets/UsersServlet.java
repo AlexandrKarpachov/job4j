@@ -4,9 +4,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
-
-
 
 /**
  * @author Aleksandr Karpachov
@@ -25,7 +24,14 @@ public class UsersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         var id = Integer.parseInt(req.getParameter("id"));
-        this.validate.delete(new User(id, null, null, null, null));
+        var user = this.validate.findById(new User(id, null, null, null, null));
+        File folder = new File("images");
+        String fileName = user.getPhotoId();
+        if (fileName != null) {
+            //noinspection ResultOfMethodCallIgnored
+            new File(folder + File.separator + fileName).delete();
+        }
+        this.validate.delete(user);
         this.doGet(req, resp);
     }
 }

@@ -7,8 +7,8 @@ public class User {
     private final String login;
     private String name;
     private String email;
-    private String createDate;
-
+    private String photoId;
+    private Long createDate;
 
 
     public User(Integer id, String login, String name, String email) {
@@ -16,13 +16,24 @@ public class User {
         this.login = login;
         this.name = name;
         this.email = email;
+        this.createDate = System.currentTimeMillis();
     }
 
-    public User(Integer id, String login, String name, String email, String createDate) {
+    public User(Integer id, String login, String name, String email, String photoId) {
         this.id = id;
         this.login = login;
         this.name = name;
         this.email = email;
+        this.photoId = photoId;
+        this.createDate = System.currentTimeMillis();
+    }
+
+    public User(Integer id, String login, String name, String email, String photoId, Long createDate) {
+        this.id = id;
+        this.login = login;
+        this.name = name;
+        this.email = email;
+        this.photoId = photoId;
         this.createDate = createDate;
     }
 
@@ -50,12 +61,20 @@ public class User {
         this.email = email;
     }
 
-    public String getCreateDate() {
+    public Long getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(Long createDate) {
         this.createDate = createDate;
+    }
+
+    public String getPhotoId() {
+        return photoId;
+    }
+
+    public void setPhotoId(String photoId) {
+        this.photoId = photoId;
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,12 +24,12 @@ public class DbStore implements Store {
     private static final DbStore INSTANCE = new DbStore();
     private final AtomicInteger counter;
     private enum Queries {
-        INSERT ("INSERT INTO Users (id, login, name, email, createDate) "
-                + "VALUES (?, ?, ?, ?, ?) ON CONFLICT do nothing "),
+        INSERT ("INSERT INTO Users (id, login, name, email, createDate, photo_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT do nothing "),
         DELETE("DELETE FROM Users WHERE id = ?"),
         SELECT_ALL("SELECT * FROM Users"),
         SELECT_BY_ID("SELECT * FROM Users WHERE id = ?"),
-        UPDATE("UPDATE Users SET name=?, email=?, createDate=? WHERE id=?"),
+        UPDATE("UPDATE Users SET name=?, email=?, photo_id=? WHERE id=?"),
         MAX_ID("SELECT MAX(id) FROM users;");
         public final String query;
 
@@ -52,7 +53,6 @@ public class DbStore implements Store {
         }
         counter = new AtomicInteger(getLastID() + 1);
     }
-
 
     private int getLastID() {
         var result = -1;
@@ -88,7 +88,8 @@ public class DbStore implements Store {
             st.setString(2, user.getLogin());
             st.setString(3, user.getName());
             st.setString(4, user.getEmail());
-            st.setString(5, user.getCreateDate());
+            st.setTimestamp(5, new Timestamp(user.getCreateDate()));
+            st.setString(6, user.getPhotoId());
             int row = st.executeUpdate();
             if (row > 0) {
                 result = true;
@@ -108,7 +109,7 @@ public class DbStore implements Store {
             st.setInt(4, user.getId());
             st.setString(1, user.getName());
             st.setString(2, user.getEmail());
-            st.setString(3, user.getCreateDate());
+            st.setString(3, user.getPhotoId());
             int row = st.executeUpdate();
             if (row > 0) {
                 result = true;
@@ -149,7 +150,8 @@ public class DbStore implements Store {
                         rs.getString("login"),
                         rs.getString("name"),
                         rs.getString("email"),
-                        rs.getString("createDate")
+                        rs.getString("photo_id"),
+                        rs.getTimestamp("createdate").getTime()
                 ));
             }
         } catch (Exception e) {
@@ -172,7 +174,8 @@ public class DbStore implements Store {
                         rs.getString("login"),
                         rs.getString("name"),
                         rs.getString("email"),
-                        rs.getString("createDate")
+                        rs.getString("photo_id"),
+                        rs.getTimestamp("createDate").getTime()
                 );
             }
         } catch (Exception e) {
