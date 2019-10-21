@@ -1,4 +1,4 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.logic;
 
 import java.io.InputStream;
 import java.util.Properties;

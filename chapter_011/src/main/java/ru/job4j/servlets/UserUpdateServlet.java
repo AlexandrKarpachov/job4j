@@ -1,10 +1,17 @@
 package ru.job4j.servlets;
 
+import ru.job4j.servlets.logic.Validate;
+import ru.job4j.servlets.logic.ValidateService;
+import ru.job4j.servlets.models.Role;
+import ru.job4j.servlets.models.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+
 
 /**
  * @author Aleksandr Karpachov
@@ -16,21 +23,31 @@ public class UserUpdateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        User user = ValidateService.getInstance().findById(new User(id, null, null, null));
+        String login = (String) req.getSession().getAttribute("login");
+        User user = ValidateService.getInstance()
+                .findByLogin(new User.Builder().withLogin(login).build());
+        var roles = new ArrayList<String>();
+        if (user.getRole() == Role.ADMIN) {
+            for (Role role : Role.values()) {
+                roles.add(role.name());
+            }
+            req.setAttribute("roles", roles);
+        } else {
+            roles.add(Role.USER.name());
+            req.setAttribute("roles", roles);
+        }
         req.setAttribute("user", user);
         req.getRequestDispatcher("WEB-INF/views/Edit.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        User user = new User(
-                Integer.parseInt(req.getParameter("id")),
-                req.getParameter("login"),
-                req.getParameter("name"),
-                req.getParameter("email"),
-                req.getParameter("createDate")
-        );
+        User user = new User.Builder()
+                .withID(Integer.parseInt(req.getParameter("id")))
+                .withLogin(req.getParameter("login"))
+                .withName(req.getParameter("name"))
+                .withEmail(req.getParameter("email"))
+                .build();
         this.validate.update(user);
         resp.sendRedirect(String.format("%s/users", req.getContextPath()));
     }

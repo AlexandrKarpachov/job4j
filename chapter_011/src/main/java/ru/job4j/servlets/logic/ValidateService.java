@@ -1,4 +1,6 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.logic;
+
+import ru.job4j.servlets.models.User;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -26,8 +28,7 @@ public class ValidateService implements Validate {
     public boolean add(User user) {
         var result = false;
         if (this.isOriginal(user) && this.check(user)) {
-            store.add(user);
-            result = true;
+            result = store.add(user);
         }
         return result;
     }
@@ -67,6 +68,11 @@ public class ValidateService implements Validate {
     @Override
     public User findById(User user) {
         return store.findById(user);
+    }
+
+    @Override
+    public User findByLogin(User user) {
+        return store.findByLogin(user);
     }
 
     private boolean check(User user) {

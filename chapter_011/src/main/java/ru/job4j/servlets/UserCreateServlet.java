@@ -1,6 +1,10 @@
 package ru.job4j.servlets;
 
 
+import ru.job4j.servlets.logic.Validate;
+import ru.job4j.servlets.logic.ValidateService;
+import ru.job4j.servlets.models.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -33,12 +37,13 @@ public class UserCreateServlet extends HttpServlet {
             //noinspection ResultOfMethodCallIgnored
             folder.mkdir();
         }
-        User user = new User(
-                this.validate.generateID(),
-                req.getParameter("login"),
-                req.getParameter("name"),
-                req.getParameter("email")
-        );
+        User user = new User.Builder()
+                .withID(validate.generateID())
+                .withLogin(req.getParameter("login"))
+                .withName(req.getParameter("name"))
+                .withEmail(req.getParameter("email"))
+                .withPassword(req.getParameter("password"))
+                .build();
         Part item = req.getPart("file");
         if (item.getSize() > 0) {
             String fileName = Paths.get(item.getSubmittedFileName()).getFileName().toString();
@@ -50,7 +55,7 @@ public class UserCreateServlet extends HttpServlet {
         }
         var result = this.validate.add(user);
         if (result) {
-            resp.sendRedirect(String.format("%s/users", req.getContextPath()));
+            resp.sendRedirect(String.format("%s/", req.getContextPath()));
         } else {
             resp.sendRedirect(String.format("%s/create", req.getContextPath()));
         }

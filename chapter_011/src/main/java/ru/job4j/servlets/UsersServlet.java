@@ -1,5 +1,9 @@
 package ru.job4j.servlets;
 
+import ru.job4j.servlets.logic.Validate;
+import ru.job4j.servlets.logic.ValidateService;
+import ru.job4j.servlets.models.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +28,7 @@ public class UsersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         var id = Integer.parseInt(req.getParameter("id"));
-        var user = this.validate.findById(new User(id, null, null, null, null));
+        var user = this.validate.findById(new User(id));
         File folder = new File("images");
         String fileName = user.getPhotoId();
         if (fileName != null) {

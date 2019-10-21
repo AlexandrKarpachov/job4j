@@ -15,9 +15,10 @@
         <form action="${pageContext.servletContext.contextPath}/create"
               method="post" enctype="multipart/form-data">
             <div class="checkbox">
-                <input type="text" name="name" value=""/>Name<br>
-                <input type="text" name="login" value=""/>Login<br>
-                <input type="text" name="email" value=""/>Email<br>
+                <label>Name:<input type="text" name="name" value=""/></label><br>
+                <label>Login:<input type="text" name="login" value=""/></label><br>
+                <label>Email:<input type="text" name="email" value=""/></label><br>
+                <label>Password:<input type="password" name="password" value=""/></label><br>
                 <input type="file" name="file">
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
