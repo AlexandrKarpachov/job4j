@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class ValidateService implements Validate {
-    private static final ValidateService INSTANCE = new ValidateService();
+    private static final Validate  INSTANCE = new ValidateService();
     private static final Pattern CYRILLIC = Pattern.compile("^([а-яА-Я0-9]+$)");
     private static final Pattern LATIN = Pattern.compile("^([a-zA-Z0-9]+$)");
     private static final Pattern EMAIL = Pattern.compile("^[a-z0-9._\\-]+@[a-z]+\\.[a-z]+$");
-    private static Store store = DbStore.getInstance();
+    private final Store store = DbStore.getInstance();
 
     private ValidateService() {
     }
 
-    public static ValidateService getInstance() {
+    public static Validate getInstance() {
         return INSTANCE;
     }
 

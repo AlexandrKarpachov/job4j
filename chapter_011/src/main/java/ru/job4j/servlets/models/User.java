@@ -139,6 +139,10 @@ public class User {
         this.password = password;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

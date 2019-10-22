@@ -31,7 +31,7 @@ public class UserCreateServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         File folder = new File("images");
         if (!folder.exists()) {
             //noinspection ResultOfMethodCallIgnored
