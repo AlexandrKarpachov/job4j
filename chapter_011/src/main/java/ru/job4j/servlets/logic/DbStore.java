@@ -30,7 +30,7 @@ public class DbStore implements Store {
         SELECT_ALL("SELECT * FROM Users"),
         FIND_BY_ID("SELECT * FROM Users WHERE id = ?"),
         FIND_BY_LOGIN("SELECT * FROM Users WHERE login = ?"),
-        UPDATE("UPDATE Users SET name=?, email=?, photo_id=? WHERE id=?"),
+        UPDATE("UPDATE Users SET name=?, email=?, photo_id=?, \"Role\"=? WHERE id=?"),
         MAX_ID("SELECT MAX(id) FROM users;");
         public final String query;
 
@@ -109,10 +109,11 @@ public class DbStore implements Store {
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement(Queries.UPDATE.query)
         ) {
-            st.setInt(4, user.getId());
+            st.setInt(5, user.getId());
             st.setString(1, user.getName());
             st.setString(2, user.getEmail());
             st.setString(3, user.getPhotoId());
+            st.setString(4, user.getRole().name());
             int row = st.executeUpdate();
             if (row > 0) {
                 result = true;

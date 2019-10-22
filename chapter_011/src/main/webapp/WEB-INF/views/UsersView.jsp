@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<jsp:useBean id="users" scope="request" type="java.util.List"/>
+
 <%--
   Created by IntelliJ IDEA.
   User: Admin

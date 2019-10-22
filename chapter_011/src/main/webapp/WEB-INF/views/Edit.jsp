@@ -19,9 +19,9 @@
         <form action="${pageContext.servletContext.contextPath}/edit" method='post'>
             <input type='hidden' name="id" value="<c:out value="${user.id}"></c:out>"/>
             <label>
-                <select name="Role">
+                <select name="role">
                     <c:forEach items="${roles}" var="role">
-                        <option value="user"><c:out value="${role}"></c:out></option>
+                        <option value="<c:out value="${role}"></c:out>"><c:out value="${role}"></c:out></option>
                     </c:forEach>
                 </select>
             </label>

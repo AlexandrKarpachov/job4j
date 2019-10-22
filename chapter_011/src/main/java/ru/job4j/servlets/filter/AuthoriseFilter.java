@@ -36,7 +36,7 @@ public class AuthoriseFilter implements Filter {
                 && !user.getId().equals(id)) {
             resp.sendRedirect(String.format("%s/", req.getContextPath()));
         } else {
-            chain.doFilter(request, response);
+            chain.doFilter(req, resp);
         }
     }
 

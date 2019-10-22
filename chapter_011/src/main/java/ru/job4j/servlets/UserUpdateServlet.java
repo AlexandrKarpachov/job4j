@@ -24,18 +24,19 @@ public class UserUpdateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String login = (String) req.getSession().getAttribute("login");
-        User user = ValidateService.getInstance()
+        User sessionUser = validate
                 .findByLogin(new User.Builder().withLogin(login).build());
         var roles = new ArrayList<String>();
-        if (user.getRole() == Role.ADMIN) {
+        if (sessionUser.getRole() == Role.ADMIN) {
             for (Role role : Role.values()) {
                 roles.add(role.name());
             }
-            req.setAttribute("roles", roles);
+
         } else {
             roles.add(Role.USER.name());
-            req.setAttribute("roles", roles);
         }
+        User user = validate.findById(new User(Integer.parseInt(req.getParameter("id"))));
+        req.setAttribute("roles", roles);
         req.setAttribute("user", user);
         req.getRequestDispatcher("WEB-INF/views/Edit.jsp").forward(req, resp);
     }
@@ -47,8 +48,9 @@ public class UserUpdateServlet extends HttpServlet {
                 .withLogin(req.getParameter("login"))
                 .withName(req.getParameter("name"))
                 .withEmail(req.getParameter("email"))
+                .withRole(Role.valueOf(req.getParameter("role")))
                 .build();
-        this.validate.update(user);
+        validate.update(user);
         resp.sendRedirect(String.format("%s/users", req.getContextPath()));
     }
 }
