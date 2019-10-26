@@ -29,7 +29,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Users</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/users</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -86,13 +86,22 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Json</servlet-name>
+        <servlet-class>ru.job4j.html.JSONController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Json</servlet-name>
+        <url-pattern>/json</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>Authentication</filter-name>
         <filter-class>ru.job4j.servlets.filter.AuthFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>Authentication</filter-name>
-        <url-pattern>*</url-pattern>
+        <url-pattern>/servlets/*</url-pattern>
     </filter-mapping>
 
     <filter>

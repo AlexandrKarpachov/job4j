@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<jsp:useBean id="users" scope="request" type="java.util.List"/>
 <%--
   Created by IntelliJ IDEA.
   User: Admin
@@ -15,13 +15,11 @@
         <form action="<%=request.getContextPath()%>/logout">
         <input type="submit" value="Quit">
         </form>
-
 <%--suppress HtmlDeprecatedAttribute --%>
         <table border>
         <tr>
             <th>Login</th><th>Name</th><th>Email</th><th>Photo</th>
         </tr>
-
         <c:forEach items="${users}" var="user">
             <tr>
                 <td><c:out value="${user.login}"></c:out></td>
@@ -38,7 +36,7 @@
                     </form>
                 </td>
                 <td>
-                    <form action="${pageContext.servletContext.contextPath}/" method="post">
+                    <form action="${pageContext.servletContext.contextPath}/users" method="post">
                         <input type="hidden" name="id" value="<c:out value="${user.id}"></c:out>">
                         <input type="submit" value="Delete">
                     </form>
@@ -49,6 +47,5 @@
         <form action="<%=request.getContextPath()%>/create" method='get'>
         <input type="submit" value="Add new User">
         </form>
-
     </body>
 </html>

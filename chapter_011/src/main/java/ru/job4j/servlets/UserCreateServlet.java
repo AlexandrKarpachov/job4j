@@ -55,7 +55,7 @@ public class UserCreateServlet extends HttpServlet {
         }
         var result = this.validate.add(user);
         if (result) {
-            resp.sendRedirect(String.format("%s/", req.getContextPath()));
+            resp.sendRedirect(String.format("%s/users", req.getContextPath()));
         } else {
             resp.sendRedirect(String.format("%s/create", req.getContextPath()));
         }

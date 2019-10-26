@@ -34,7 +34,7 @@ public class SignInController extends HttpServlet {
             req.getRequestDispatcher("WEB-INF/views/SignIn.jsp").forward(req, resp);
         } else {
             req.getSession().setAttribute("login", user.getLogin());
-            resp.sendRedirect(req.getContextPath() + "/");
+            resp.sendRedirect(req.getContextPath() + "/users");
         }
     }
 }

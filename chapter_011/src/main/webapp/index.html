@@ -7,39 +7,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script  type="text/javascript" src="scripts.js"></script>
     <style>
         body {
             background-color: linen;
         }
     </style>
-    <script>
-        function validate() {
-            var result = true;
-            var name = $('#name');
-            var lastName = $('#surname');
-            if (name.val() === '') {
-                alert(name.attr('title'));
-                result = false;
-            }
-            if (lastName.val() === '') {
-                alert(lastName.attr('title'));
-                result = false;
-            }
-            return result;
-        }
-        function addRow() {
-            var name = $('#name').val();
-            var surname = $('#surname').val();
-            var gender = document.querySelector('input[name="gender"]:checked').value;
-            var desc = $('#comment').val();
-            $('#table tr:last')
-                .after('<tr><td>' + name +'</td><td>' + surname +'</td><td>' + gender +'</td><td>' + desc +'</td></tr>');
-        }
-    </script>
 </head>
 <body>
-
-
 <div class="jumbotron text-center">
     <h2>Registration Data</h2>
 </div>
@@ -72,7 +47,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-5 col-sm-10">
-                <button type="submit" class="btn btn-default" onclick="return validate()">Submit</button>
+                <button type="submit" class="btn btn-default" onclick="addUser()">Submit</button>
             </div>
         </div>
     </form>
@@ -87,14 +62,9 @@
                 <th>Description</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td>John</td>
-                <td>Doe</td>
-                <td>male</td>
-                <td>test row</td>
-            </tr>
+            <tbody id="body">
             </tbody>
+            <script>createTable();</script>
         </table>
         <div class="form-group">
             <div class="col-sm-offset-5 col-sm-10">
