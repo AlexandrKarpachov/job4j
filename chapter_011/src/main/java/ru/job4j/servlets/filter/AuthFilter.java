@@ -22,7 +22,8 @@ public class AuthFilter implements Filter {
         var session = ((HttpServletRequest) request).getSession(false);
         var req = (HttpServletRequest) request;
         var resp = (HttpServletResponse) response;
-        if (req.getRequestURI().contains("/signIn") || req.getRequestURI().contains("/create")) {
+        if (req.getRequestURI().contains("/signIn") || req.getRequestURI().contains("/create")
+                || req.getRequestURI().contains("/cities")) {
             chain.doFilter(request, response);
         } else if (session == null || session.getAttribute("login") == null) {
             resp.sendRedirect(String.format("%s/signIn", req.getContextPath()));

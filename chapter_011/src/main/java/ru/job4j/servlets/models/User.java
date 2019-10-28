@@ -11,6 +11,8 @@ public class User {
     private Long createDate;
     private Role role;
     private String password;
+    private String city;
+    private String country;
 
     public User(Integer id) {
         this.id = id;
@@ -25,6 +27,8 @@ public class User {
         this.createDate = builder.createDate;
         this.role = builder.role;
         this.password = builder.password;
+        this.city = builder.city;
+        this.country = builder.country;
     }
 
     public static class Builder {
@@ -36,6 +40,18 @@ public class User {
         private Role role = Role.USER;
         private String password;
         private Long createDate = System.currentTimeMillis();
+        private String city;
+        private String country;
+
+        public Builder withCity(String city) {
+            this.city = city;
+            return this;
+        }
+
+        public Builder withCountry(String country) {
+            this.country = country;
+            return this;
+        }
 
         public Builder withID(Integer id) {
             this.id = id;
@@ -81,6 +97,22 @@ public class User {
             return new User(this);
         }
 
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public Integer getId() {

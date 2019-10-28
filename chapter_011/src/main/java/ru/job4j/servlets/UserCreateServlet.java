@@ -43,6 +43,7 @@ public class UserCreateServlet extends HttpServlet {
                 .withName(req.getParameter("name"))
                 .withEmail(req.getParameter("email"))
                 .withPassword(req.getParameter("password"))
+                .withCity(req.getParameter("city"))
                 .build();
         Part item = req.getPart("file");
         if (item.getSize() > 0) {

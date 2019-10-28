@@ -24,13 +24,14 @@ public class DbStore implements Store {
     private static final DbStore INSTANCE = new DbStore();
     private final AtomicInteger counter;
     private enum Queries {
-        INSERT ("INSERT INTO Users (id, login, name, email, createDate, photo_id, \"Role\", password) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT do nothing "),
+        INSERT ("INSERT INTO Users ("
+                + "id, login, name, email, createDate, photo_id, \"Role\", password, \"Country\", \"City\")"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT do nothing "),
         DELETE("DELETE FROM Users WHERE id = ?"),
         SELECT_ALL("SELECT * FROM Users"),
         FIND_BY_ID("SELECT * FROM Users WHERE id = ?"),
         FIND_BY_LOGIN("SELECT * FROM Users WHERE login = ?"),
-        UPDATE("UPDATE Users SET name=?, email=?, photo_id=?, \"Role\"=? WHERE id=?"),
+        UPDATE("UPDATE Users SET name=?, email=?, photo_id=?, \"Role\"=?, \"City\"=? WHERE id=?"),
         MAX_ID("SELECT MAX(id) FROM users;");
         public final String query;
 
@@ -93,6 +94,8 @@ public class DbStore implements Store {
             st.setString(6, user.getPhotoId());
             st.setString(7, user.getRole().name());
             st.setString(8, user.getPassword());
+            st.setString(9, user.getCountry());
+            st.setString(10, user.getCity());
             int row = st.executeUpdate();
             if (row > 0) {
                 result = true;
@@ -109,11 +112,12 @@ public class DbStore implements Store {
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement(Queries.UPDATE.query)
         ) {
-            st.setInt(5, user.getId());
+            st.setInt(6, user.getId());
             st.setString(1, user.getName());
             st.setString(2, user.getEmail());
             st.setString(3, user.getPhotoId());
             st.setString(4, user.getRole().name());
+            st.setString(5, user.getCity());
             int row = st.executeUpdate();
             if (row > 0) {
                 result = true;
@@ -161,6 +165,8 @@ public class DbStore implements Store {
                         .withRole(role)
                         .withCreateDate(rs.getTimestamp("createDate").getTime())
                         .withPassword(rs.getString("password"))
+                        .withCountry(rs.getString("country"))
+                        .withCity(rs.getString("city"))
                         .build()
                 );
             }
@@ -218,6 +224,8 @@ public class DbStore implements Store {
                         .withRole(role)
                         .withCreateDate(time)
                         .withPassword(rs.getString("password"))
+                        .withCountry(rs.getString("country"))
+                        .withCity(rs.getString("city"))
                         .build();
             }
         } catch (SQLException e) {

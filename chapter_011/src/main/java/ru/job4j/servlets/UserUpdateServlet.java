@@ -49,6 +49,7 @@ public class UserUpdateServlet extends HttpServlet {
                 .withName(req.getParameter("name"))
                 .withEmail(req.getParameter("email"))
                 .withRole(Role.valueOf(req.getParameter("role")))
+
                 .build();
         validate.update(user);
         resp.sendRedirect(String.format("%s/users", req.getContextPath()));

@@ -34,7 +34,7 @@ public class AuthoriseFilter implements Filter {
         Integer id = param == null ?  null : Integer.parseInt(req.getParameter("id"));
         if (!user.getRole().equals(Role.ADMIN)
                 && !user.getId().equals(id)) {
-            resp.sendRedirect(String.format("%s/", req.getContextPath()));
+            resp.sendRedirect(String.format("%s/users", req.getContextPath()));
         } else {
             chain.doFilter(req, resp);
         }

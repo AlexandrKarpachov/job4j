@@ -95,13 +95,22 @@
         <url-pattern>/json</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Cities</servlet-name>
+        <servlet-class>ru.job4j.servlets.CitiesController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Cities</servlet-name>
+        <url-pattern>/cities</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>Authentication</filter-name>
         <filter-class>ru.job4j.servlets.filter.AuthFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>Authentication</filter-name>
-        <url-pattern>/servlets/*</url-pattern>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <filter>

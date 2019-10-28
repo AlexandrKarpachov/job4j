@@ -62,4 +62,20 @@
         </insert>
     </changeSet>
 
+    <changeSet author="AleksandrKarpachov" id="add Country">
+        <addColumn catalogName="tracker"
+                   schemaName="public"
+                   tableName="users">
+            <column name="Country" type="varchar(20)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="AleksandrKarpachov" id="add City">
+        <addColumn catalogName="tracker"
+                   schemaName="public"
+                   tableName="users">
+            <column name="City" type="varchar(20)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
