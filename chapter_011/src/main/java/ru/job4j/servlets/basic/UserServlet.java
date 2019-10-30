@@ -1,4 +1,8 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.basic;
+
+import ru.job4j.servlets.logic.Validate;
+import ru.job4j.servlets.logic.ValidateService;
+import ru.job4j.servlets.models.User;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -48,13 +52,14 @@ public class UserServlet extends HttpServlet {
 
 
     private User createUser(HttpServletRequest req) {
-        return new User(
-                this.validate.generateID(),
-                req.getParameter("login"),
-                req.getParameter("name"),
-                req.getParameter("email"),
-                req.getParameter("createDate")
-        );
+        var textId = req.getParameter("id");
+        var id = textId == null ? validate.generateID() : Integer.parseInt(textId);
+        return new User.Builder()
+                .withID(id)
+                .withLogin(req.getParameter("login"))
+                .withName(req.getParameter("name"))
+                .withEmail(req.getParameter("email"))
+                .build();
     }
 
 

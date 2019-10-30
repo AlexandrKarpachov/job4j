@@ -1,11 +1,12 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.logic;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
+import ru.job4j.servlets.models.Role;
+import ru.job4j.servlets.models.User;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,12 +24,14 @@ public class DbStore implements Store {
     private static final DbStore INSTANCE = new DbStore();
     private final AtomicInteger counter;
     private enum Queries {
-        INSERT ("INSERT INTO Users (id, login, name, email, createDate) "
-                + "VALUES (?, ?, ?, ?, ?) ON CONFLICT do nothing "),
+        INSERT ("INSERT INTO Users ("
+                + "id, login, name, email, createDate, photo_id, \"Role\", password, \"Country\", \"City\")"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT do nothing "),
         DELETE("DELETE FROM Users WHERE id = ?"),
         SELECT_ALL("SELECT * FROM Users"),
-        SELECT_BY_ID("SELECT * FROM Users WHERE id = ?"),
-        UPDATE("UPDATE Users SET name=?, email=?, createDate=? WHERE id=?"),
+        FIND_BY_ID("SELECT * FROM Users WHERE id = ?"),
+        FIND_BY_LOGIN("SELECT * FROM Users WHERE login = ?"),
+        UPDATE("UPDATE Users SET name=?, email=?, photo_id=?, \"Role\"=?, \"City\"=? WHERE id=?"),
         MAX_ID("SELECT MAX(id) FROM users;");
         public final String query;
 
@@ -53,6 +56,9 @@ public class DbStore implements Store {
         counter = new AtomicInteger(getLastID() + 1);
     }
 
+    public static DbStore getInstance() {
+        return INSTANCE;
+    }
 
     private int getLastID() {
         var result = -1;
@@ -67,10 +73,6 @@ public class DbStore implements Store {
             LOG.error(e.getMessage(), e);
         }
         return result;
-    }
-
-    public static DbStore getInstance() {
-        return INSTANCE;
     }
 
     @Override
@@ -88,7 +90,12 @@ public class DbStore implements Store {
             st.setString(2, user.getLogin());
             st.setString(3, user.getName());
             st.setString(4, user.getEmail());
-            st.setString(5, user.getCreateDate());
+            st.setTimestamp(5, new Timestamp(user.getCreateDate()));
+            st.setString(6, user.getPhotoId());
+            st.setString(7, user.getRole().name());
+            st.setString(8, user.getPassword());
+            st.setString(9, user.getCountry());
+            st.setString(10, user.getCity());
             int row = st.executeUpdate();
             if (row > 0) {
                 result = true;
@@ -105,10 +112,12 @@ public class DbStore implements Store {
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement st = connection.prepareStatement(Queries.UPDATE.query)
         ) {
-            st.setInt(4, user.getId());
+            st.setInt(6, user.getId());
             st.setString(1, user.getName());
             st.setString(2, user.getEmail());
-            st.setString(3, user.getCreateDate());
+            st.setString(3, user.getPhotoId());
+            st.setString(4, user.getRole().name());
+            st.setString(5, user.getCity());
             int row = st.executeUpdate();
             if (row > 0) {
                 result = true;
@@ -144,13 +153,22 @@ public class DbStore implements Store {
         ) {
             var rs = st.executeQuery();
             while (rs.next()) {
-                result.add(new User(
-                        rs.getInt("id"),
-                        rs.getString("login"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("createDate")
-                ));
+                var parsedRole = rs.getString("role");
+                var role = parsedRole == null
+                        ? Role.USER : Role.valueOf(parsedRole);
+                result.add(new User.Builder()
+                        .withID(rs.getInt("id"))
+                        .withLogin(rs.getString("login"))
+                        .withName(rs.getString("name"))
+                        .withEmail(rs.getString("email"))
+                        .withPhoto(rs.getString("photo_id"))
+                        .withRole(role)
+                        .withCreateDate(rs.getTimestamp("createDate").getTime())
+                        .withPassword(rs.getString("password"))
+                        .withCountry(rs.getString("country"))
+                        .withCity(rs.getString("city"))
+                        .build()
+                );
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -162,21 +180,56 @@ public class DbStore implements Store {
     public User findById(User user) {
         User result = null;
         try (Connection connection = SOURCE.getConnection();
-             var st = connection.prepareStatement(Queries.SELECT_BY_ID.query)
+             var st = connection.prepareStatement(Queries.FIND_BY_ID.query)
         ) {
             st.setInt(1, user.getId());
             var rs = st.executeQuery();
-            if (rs.next()) {
-                result = new User(
-                        rs.getInt("id"),
-                        rs.getString("login"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("createDate")
-                );
-            }
+            result = createUser(rs);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
+        }
+        return result;
+    }
+
+    @Override
+    public User findByLogin(User user) {
+        User result = null;
+        try (Connection connection = SOURCE.getConnection();
+             var st = connection.prepareStatement(Queries.FIND_BY_LOGIN.query)
+        ) {
+            st.setString(1, user.getLogin());
+            var rs = st.executeQuery();
+            result = createUser(rs);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return result;
+    }
+
+    private User createUser(ResultSet rs) {
+        User result = null;
+        try {
+            if (rs.next()) {
+                var parsedRole = rs.getString("role");
+                var role = parsedRole == null
+                        ? Role.USER : Role.valueOf(parsedRole);
+                var parsedTime = rs.getTimestamp("createDate");
+                var time = parsedTime == null ? 0 : parsedTime.getTime();
+                result = new User.Builder()
+                        .withID(rs.getInt("id"))
+                        .withLogin(rs.getString("login"))
+                        .withName(rs.getString("name"))
+                        .withEmail(rs.getString("email"))
+                        .withPhoto(rs.getString("photo_id"))
+                        .withRole(role)
+                        .withCreateDate(time)
+                        .withPassword(rs.getString("password"))
+                        .withCountry(rs.getString("country"))
+                        .withCity(rs.getString("city"))
+                        .build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return result;
     }

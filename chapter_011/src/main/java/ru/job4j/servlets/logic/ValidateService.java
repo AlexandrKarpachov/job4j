@@ -1,19 +1,21 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.logic;
+
+import ru.job4j.servlets.models.User;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class ValidateService implements Validate {
-    private static final ValidateService INSTANCE = new ValidateService();
+    private static final Validate  INSTANCE = new ValidateService();
     private static final Pattern CYRILLIC = Pattern.compile("^([а-яА-Я0-9]+$)");
     private static final Pattern LATIN = Pattern.compile("^([a-zA-Z0-9]+$)");
     private static final Pattern EMAIL = Pattern.compile("^[a-z0-9._\\-]+@[a-z]+\\.[a-z]+$");
-    private static Store store = DbStore.getInstance();
+    private final Store store = DbStore.getInstance();
 
     private ValidateService() {
     }
 
-    public static ValidateService getInstance() {
+    public static Validate getInstance() {
         return INSTANCE;
     }
 
@@ -26,14 +28,14 @@ public class ValidateService implements Validate {
     public boolean add(User user) {
         var result = false;
         if (this.isOriginal(user) && this.check(user)) {
-            store.add(user);
-            result = true;
+            result = store.add(user);
         }
         return result;
     }
 
     private boolean isOriginal(User user) {
         var result = true;
+
         for (User eUser : store.findAll()) {
             if (eUser.getId().equals(user.getId())
                     || eUser.getLogin().equalsIgnoreCase(user.getLogin())) {
@@ -66,6 +68,11 @@ public class ValidateService implements Validate {
     @Override
     public User findById(User user) {
         return store.findById(user);
+    }
+
+    @Override
+    public User findByLogin(User user) {
+        return store.findByLogin(user);
     }
 
     private boolean check(User user) {

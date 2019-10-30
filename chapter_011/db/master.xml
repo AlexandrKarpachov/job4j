@@ -2,8 +2,80 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <include file="scripts/update_001.sql" relativeToChangelogFile="true"/>
+
+    <changeSet author="AleksandrKarpachov" id="add img column">
+        <addColumn catalogName="tracker"
+                   schemaName="public"
+                   tableName="users">
+            <column name="photo_id" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="AleksandrKarpachov" id="change createDate to timestamp">
+        <dropColumn catalogName="tracker"
+                    columnName="createdate"
+                    schemaName="public"
+                    tableName="users"/>
+        <addColumn catalogName="tracker"
+                   schemaName="public"
+                   tableName="users">
+            <column name="createdate" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="AleksandrKarpachov" id="add Role to users">
+        <addColumn catalogName="tracker"
+                   schemaName="public"
+                   tableName="users">
+            <column name="Role" type="varchar(15)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="AleksandrKarpachov" id="add password">
+        <addColumn catalogName="tracker"
+                   schemaName="public"
+                   tableName="users">
+            <column name="password" type="varchar(20)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="AleksandrKarpachov" id="add password">
+        <addColumn catalogName="tracker"
+                   schemaName="public"
+                   tableName="users">
+            <column name="password" type="varchar(20)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="AleksandrKarpachov" id="insert default Admin">
+        <insert catalogName="tracker"
+                schemaName="public"
+                tableName="users">
+            <column name="id" value="-1"/>
+            <column name="login" value="Admin"/>
+            <column name="name" value="Admin"/>
+            <column name="password" value="Admin"/>
+            <column name="Role" value="ADMIN"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="AleksandrKarpachov" id="add Country">
+        <addColumn catalogName="tracker"
+                   schemaName="public"
+                   tableName="users">
+            <column name="Country" type="varchar(20)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="AleksandrKarpachov" id="add City">
+        <addColumn catalogName="tracker"
+                   schemaName="public"
+                   tableName="users">
+            <column name="City" type="varchar(20)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

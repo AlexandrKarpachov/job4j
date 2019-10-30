@@ -1,10 +1,17 @@
 package ru.job4j.servlets;
 
+import ru.job4j.servlets.logic.Validate;
+import ru.job4j.servlets.logic.ValidateService;
+import ru.job4j.servlets.models.Role;
+import ru.job4j.servlets.models.User;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+
 
 /**
  * @author Aleksandr Karpachov
@@ -15,42 +22,36 @@ public class UserUpdateServlet extends HttpServlet {
     private final Validate validate = ValidateService.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/html");
-        var id = Integer.parseInt(req.getParameter("id"));
-        var user = this.validate.findById(new User(id, null, null, null));
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append("<!DOCTYPE html>\n"
-                + "<html lang=\"en\">\n"
-                + "<head>\n"
-                + "    <meta charset=\"UTF-8\">\n"
-                + "    <title>Title</title>\n"
-                + "</head>\n"
-                + "<body>\n"
-                + "<form action=" + req.getContextPath() + "/edit method='post'>\n"
-                + "    <input type='hidden' name='id' value='" + user.getId() + "'/><br>\n"
-                + "    <input type='hidden' name='login' value='" + user.getLogin() + "'/><br>\n"
-                + "    <input type='txt' name='name' value='" + user.getName() + "'/>Name<br>\n"
-                + "    <input type='txt' name='email' value='" + user.getEmail() + "'/>Email<br>\n"
-                + "    <input type='txt' name='createDate"
-                + "         'value='" + user.getCreateDate() + "'/>Additional Information<br>\n"
-                + "    <input type='submit' value='Update'>\n"
-                + "</form>\n"
-                + "</body>\n"
-                + "</html>");
-        writer.flush();
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String login = (String) req.getSession().getAttribute("login");
+        User sessionUser = validate
+                .findByLogin(new User.Builder().withLogin(login).build());
+        var roles = new ArrayList<String>();
+        if (sessionUser.getRole() == Role.ADMIN) {
+            for (Role role : Role.values()) {
+                roles.add(role.name());
+            }
+
+        } else {
+            roles.add(Role.USER.name());
+        }
+        User user = validate.findById(new User(Integer.parseInt(req.getParameter("id"))));
+        req.setAttribute("roles", roles);
+        req.setAttribute("user", user);
+        req.getRequestDispatcher("WEB-INF/views/Edit.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        User user = new User(
-                Integer.parseInt(req.getParameter("id")),
-                req.getParameter("login"),
-                req.getParameter("name"),
-                req.getParameter("email"),
-                req.getParameter("createDate")
-        );
-        this.validate.update(user);
-        resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
+        User user = new User.Builder()
+                .withID(Integer.parseInt(req.getParameter("id")))
+                .withLogin(req.getParameter("login"))
+                .withName(req.getParameter("name"))
+                .withEmail(req.getParameter("email"))
+                .withRole(Role.valueOf(req.getParameter("role")))
+
+                .build();
+        validate.update(user);
+        resp.sendRedirect(String.format("%s/users", req.getContextPath()));
     }
 }

@@ -1,4 +1,6 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.logic;
+
+import ru.job4j.servlets.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,5 +55,17 @@ public class MemoryStore implements Store {
     @Override
     public User findById(User user) {
         return storage.get(user.getId());
+    }
+
+    @Override
+    public User findByLogin(User user) {
+        User result = null;
+        for (User u : storage.values()) {
+            if (u.getLogin().equals(user.getLogin())) {
+                result = u;
+                break;
+            }
+        }
+        return result;
     }
 }

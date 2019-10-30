@@ -1,4 +1,6 @@
-package ru.job4j.servlets;
+package ru.job4j.servlets.logic;
+
+import ru.job4j.servlets.models.User;
 
 import java.util.List;
 
@@ -20,4 +22,6 @@ public interface Store {
     List<User> findAll();
 
     User findById(User user);
+
+    User findByLogin(User user);
 }

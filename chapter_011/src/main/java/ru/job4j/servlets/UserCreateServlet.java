@@ -1,58 +1,64 @@
 package ru.job4j.servlets;
 
 
+import ru.job4j.servlets.logic.Validate;
+import ru.job4j.servlets.logic.ValidateService;
+import ru.job4j.servlets.models.User;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.nio.file.Paths;
 
 /**
  * @author Aleksandr Karpachov
  * @version 1.0
  * @since 14.10.2019
  */
+@MultipartConfig
 public class UserCreateServlet extends HttpServlet {
     private final Validate validate = ValidateService.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/html");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append("<!DOCTYPE html>\n"
-                + "<html lang=\"en\">\n"
-                + "<head>\n"
-                + "    <meta charset=\"UTF-8\">\n"
-                + "    <title>Title</title>\n"
-                + "</head>\n"
-                + "<body>\n"
-                + "<form action=" + req.getContextPath() + "/create method='post'>\n"
-                + "    <input type='txt' name='name' value=''/>Name<br>\n"
-                + "    <input type='txt' name='login' value=''/>Login<br>\n"
-                + "    <input type='txt' name='email' value=''/>Email<br>\n"
-                + "    <input type='txt' name='createDate' value=''/>Additional Information<br>\n"
-                + "    <input type='submit' value='Add'>\n"
-                + "</form>\n"
-                + "</body>\n"
-                + "</html>");
-        writer.flush();
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        req.getRequestDispatcher("WEB-INF/views/Create.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        User user = new User(
-                this.validate.generateID(),
-                req.getParameter("login"),
-                req.getParameter("name"),
-                req.getParameter("email"),
-                req.getParameter("createDate")
-        );
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        File folder = new File("images");
+        if (!folder.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            folder.mkdir();
+        }
+        User user = new User.Builder()
+                .withID(validate.generateID())
+                .withLogin(req.getParameter("login"))
+                .withName(req.getParameter("name"))
+                .withEmail(req.getParameter("email"))
+                .withPassword(req.getParameter("password"))
+                .withCity(req.getParameter("city"))
+                .build();
+        Part item = req.getPart("file");
+        if (item.getSize() > 0) {
+            String fileName = Paths.get(item.getSubmittedFileName()).getFileName().toString();
+            File file = new File(folder + File.separator + fileName);
+            try (FileOutputStream out = new FileOutputStream(file)) {
+                out.write(item.getInputStream().readAllBytes());
+            }
+            user.setPhotoId(fileName);
+        }
         var result = this.validate.add(user);
-        String answer;
         if (result) {
-            resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
+            resp.sendRedirect(String.format("%s/users", req.getContextPath()));
         } else {
-            resp.sendRedirect(String.format("%s/create.jsp", req.getContextPath()));
+            resp.sendRedirect(String.format("%s/create", req.getContextPath()));
         }
     }
 }
